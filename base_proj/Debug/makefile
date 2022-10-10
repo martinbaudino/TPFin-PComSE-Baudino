@@ -60,8 +60,8 @@ all: main-build
 main-build: base_proj.elf secondary-outputs
 
 # Tool invocations
-base_proj.elf base_proj.map: $(OBJS) $(USER_OBJS) C:\dev\pcomse\TPFin-PComSE-Baudino\base_proj\STM32F429ZITX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
-	arm-none-eabi-gcc -o "base_proj.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"C:\dev\pcomse\TPFin-PComSE-Baudino\base_proj\STM32F429ZITX_FLASH.ld" --specs=nosys.specs -Wl,-Map="base_proj.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+base_proj.elf base_proj.map: $(OBJS) $(USER_OBJS) C:\dev\TPFin-PComSE-Baudino\base_proj\STM32F429ZITX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
+	arm-none-eabi-gcc -o "base_proj.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"C:\dev\TPFin-PComSE-Baudino\base_proj\STM32F429ZITX_FLASH.ld" --specs=nosys.specs -Wl,-Map="base_proj.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
 	@echo 'Finished building target: $@'
 	@echo ' '
 

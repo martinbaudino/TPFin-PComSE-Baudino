@@ -17,9 +17,10 @@
   */
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
-#include "main.h"
+#include <sensorApp.h>
 #include "string.h"
-
+#include <stdbool.h>
+#include <stdint.h>
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 
@@ -33,11 +34,11 @@
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
 /***************************** Definiciones de pines ***********************************/
-#define     ADS1018_SPI_CLK             (0x0001)    // P3.0 Output: CLK para ADS1018
-#define     ADS1018_SPI_SIMO            (0x0010)    // P3.4 Output: SIMO para ADS1018
-#define     ADS1018_SPI_SOMI            (0x0020)    // P3.5 Input: SOMI para ADS1018
-#define     ADS1018_SPI_SS              (0x0008)    // P4.3 Output: SS para ADS1018
-#define     ADS1018_DRY                 (0x0008)    // P2.3 Input: DRY para ADS1018
+//#define     ADS1018_SPI_CLK             (0x0001)    // P3.0 Output: CLK para ADS1018
+//#define     ADS1018_SPI_SIMO            (0x0010)    // P3.4 Output: SIMO para ADS1018
+//#define     ADS1018_SPI_SOMI            (0x0020)    // P3.5 Input: SOMI para ADS1018
+//#define     ADS1018_SPI_SS              (0x0008)    // P4.3 Output: SS para ADS1018
+//#define     ADS1018_DRY                 (0x0008)    // P2.3 Input: DRY para ADS1018
 
 #define     ADS1018_CFG_SS              (0x8000)
 #define     ADS1018_CFG_CH1             (0x0000)
@@ -80,31 +81,29 @@ static void MX_GPIO_Init(void);
 static void MX_ETH_Init(void);
 static void MX_USART3_UART_Init(void);
 static void MX_USB_OTG_FS_PCD_Init(void);
-static void MX_SPI4_Init(void);
+//static void MX_SPI4_Init(void);
 /* USER CODE BEGIN PFP */
-void leer_adc(uint8_t *data);
-
-/* ADS_BSP */
-bool init_ads_spi(void);
-uint8_t tx_rx_spi(uint8_t configByte);
-
-/* COMM_BSP */
-bool init_uart(void);
-bool tx_uart(uint8_t *dataBuffer, uint8_t buffSize);
-bool rx_uart(uint8_t *dataBuffer, uint8_t buffSize);
-
-
-
 
 /* ADS1018 */
 bool init_ads(void);
-uint8_t read_ads(uint8_t *dataBuffer, uint8_t buffSize);
+uint8_t read_ads(uint16_t *dataBuffer, uint8_t buffSize);
+
+/* ADS_BSP */
+bool init_ads_spi(void);
+uint16_t tx_rx_spi(uint16_t configWord);
+// Adición ex post: convierte los canales con manejo de señales
+// de bajo nivel
+uint16_t read_ads_data(uint16_t *readBuffer, uint8_t buffSize);
 
 /* SENS_COMM */
 bool init_comm(void);
 bool tx_data(uint8_t *dataBuffer);
 bool rx_data(uint8_t *dataBuffer, uint8_t buffSize);
 
+/* COMM_BSP */
+bool init_uart(void);
+bool tx_uart(uint8_t *dataBuffer, uint8_t buffSize);
+bool rx_uart(uint8_t *dataBuffer, uint8_t buffSize);
 
 /* USER CODE END PFP */
 
@@ -120,7 +119,7 @@ bool rx_data(uint8_t *dataBuffer, uint8_t buffSize);
 int main(void)
 {
   /* USER CODE BEGIN 1 */
-	unsigned char MSP_Access_Data[6] = { 0 };
+	uint16_t MSP_Access_Data[3] = { 0 };
 	uint16_t tin, tc1, tc2;
   /* USER CODE END 1 */
 
@@ -145,20 +144,20 @@ int main(void)
   MX_ETH_Init();
   MX_USART3_UART_Init();
   MX_USB_OTG_FS_PCD_Init();
-  MX_SPI4_Init();
+//  MX_SPI4_Init();
   /* USER CODE BEGIN 2 */
-
+  init_ads();
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-	  leer_adc(MSP_Access_Data);
-	  tin = (MSP_Access_Data[5] >> 4) + (((uint16_t)MSP_Access_Data[4]) << 4);
-	  tc1 = (MSP_Access_Data[3] >> 4) + (((uint16_t)MSP_Access_Data[2]) << 4);
-	  tc2 = (MSP_Access_Data[6] >> 1) + (((uint16_t)MSP_Access_Data[5]) << 0);
-	  HAL_UART_Transmit(&huart3, MSP_Access_Data, 6, 0xFFFF);
+	  read_ads(MSP_Access_Data, 3);
+	  //tin = (MSP_Access_Data[5] >> 4) + (((uint16_t)MSP_Access_Data[4]) << 4);
+	 // tc1 = (MSP_Access_Data[3] >> 4) + (((uint16_t)MSP_Access_Data[2]) << 4);
+	 // tc2 = (MSP_Access_Data[6] >> 1) + (((uint16_t)MSP_Access_Data[5]) << 0);
+	 // HAL_UART_Transmit(&huart3, MSP_Access_Data, 6, 0xFFFF);
 	  //HAL_UART_Transmit(&huart3, "\r\n", 2, 0xFFFF);
 
 	  HAL_Delay(1000);
@@ -268,38 +267,38 @@ static void MX_ETH_Init(void)
   * @param None
   * @retval None
   */
-static void MX_SPI4_Init(void)
-{
-
-  /* USER CODE BEGIN SPI4_Init 0 */
-
-  /* USER CODE END SPI4_Init 0 */
-
-  /* USER CODE BEGIN SPI4_Init 1 */
-
-  /* USER CODE END SPI4_Init 1 */
-  /* SPI4 parameter configuration*/
-  hspi4.Instance = SPI4;
-  hspi4.Init.Mode = SPI_MODE_MASTER;
-  hspi4.Init.Direction = SPI_DIRECTION_2LINES;
-  hspi4.Init.DataSize = SPI_DATASIZE_8BIT;
-  hspi4.Init.CLKPolarity = SPI_POLARITY_LOW;
-  hspi4.Init.CLKPhase = SPI_PHASE_2EDGE;
-  hspi4.Init.NSS = SPI_NSS_HARD_OUTPUT;
-  hspi4.Init.BaudRatePrescaler = SPI_BAUDRATEPRESCALER_256;
-  hspi4.Init.FirstBit = SPI_FIRSTBIT_MSB;
-  hspi4.Init.TIMode = SPI_TIMODE_DISABLE;
-  hspi4.Init.CRCCalculation = SPI_CRCCALCULATION_DISABLE;
-  hspi4.Init.CRCPolynomial = 10;
-  if (HAL_SPI_Init(&hspi4) != HAL_OK)
-  {
-    Error_Handler();
-  }
-  /* USER CODE BEGIN SPI4_Init 2 */
-
-  /* USER CODE END SPI4_Init 2 */
-
-}
+//static void MX_SPI4_Init(void)
+//{
+//
+//  /* USER CODE BEGIN SPI4_Init 0 */
+//
+//  /* USER CODE END SPI4_Init 0 */
+//
+//  /* USER CODE BEGIN SPI4_Init 1 */
+//
+//  /* USER CODE END SPI4_Init 1 */
+//  /* SPI4 parameter configuration*/
+//  hspi4.Instance = SPI4;
+//  hspi4.Init.Mode = SPI_MODE_MASTER;
+//  hspi4.Init.Direction = SPI_DIRECTION_2LINES;
+//  hspi4.Init.DataSize = SPI_DATASIZE_8BIT;
+//  hspi4.Init.CLKPolarity = SPI_POLARITY_LOW;
+//  hspi4.Init.CLKPhase = SPI_PHASE_2EDGE;
+//  hspi4.Init.NSS = SPI_NSS_HARD_OUTPUT;
+//  hspi4.Init.BaudRatePrescaler = SPI_BAUDRATEPRESCALER_256;
+//  hspi4.Init.FirstBit = SPI_FIRSTBIT_MSB;
+//  hspi4.Init.TIMode = SPI_TIMODE_DISABLE;
+//  hspi4.Init.CRCCalculation = SPI_CRCCALCULATION_DISABLE;
+//  hspi4.Init.CRCPolynomial = 10;
+//  if (HAL_SPI_Init(&hspi4) != HAL_OK)
+//  {
+//    Error_Handler();
+//  }
+//  /* USER CODE BEGIN SPI4_Init 2 */
+//
+//  /* USER CODE END SPI4_Init 2 */
+//
+//}
 
 /**
   * @brief USART3 Initialization Function
@@ -429,61 +428,87 @@ static void MX_GPIO_Init(void)
 }
 
 /* USER CODE BEGIN 4 */
-void leer_adc(uint8_t *data) {
+bool init_ads(void){
+	if(init_ads_spi() == true)
+		return true;
+	else
+		return false;
+}
 
-	// TODO: cargar palabras de configuraci�n para el ADC
-	uint16_t configADC[4] = { ADS1018_CFG_SS | ADS1018_CFG_CH2 | ADS1018_CFG_PGA
-			| ADS1018_CFG_MODE | ADS1018_CFG_DR | ADS1018_CFG_PU_EN
-			| ADS1018_CFG_NOP | ADS1018_CFG_RSV,
-	ADS1018_CFG_SS | ADS1018_CFG_CH1 | ADS1018_CFG_PGA | ADS1018_CFG_MODE
-			| ADS1018_CFG_DR | ADS1018_CFG_PU_EN | ADS1018_CFG_NOP
-			| ADS1018_CFG_RSV,
-	ADS1018_CFG_SS | ADS1018_CFG_TINT | ADS1018_CFG_PGA | ADS1018_CFG_MODE
-			| ADS1018_CFG_DR | ADS1018_CFG_PU_EN | ADS1018_CFG_NOP
-			| ADS1018_CFG_RSV, 0x0001 };
-	uint8_t i, j;
-	uint8_t dummy[3]= {0};
 
-	uint8_t configADCinv[8] = {0};
-	for (i = 0; i < 4; i++){
-		configADCinv[i*2] = (uint8_t)(configADC[i] >> 8);
-		configADCinv[(i*2)+1] = (uint8_t)(configADC[i]);
-	}
+uint8_t read_ads(uint16_t *dataBuffer, uint8_t buffSize){
 
-	/* Env�o la primera palabra de configuraci�n y descarto el dato recibido */
-	//SPI_Tx_Rx(configADC[0] >> 8);     // MSB
-	//SPI_Tx_Rx(configADC[0]);          // LSB
-	HAL_SPI_TransmitReceive(&hspi4, configADCinv, dummy, 2, 0xFFFFFFFF );
+	read_ads_data(dataBuffer, buffSize);
+
+	return 6;
+}
+
+bool init_ads_spi(void){
+	  hspi4.Instance = SPI4;
+	  hspi4.Init.Mode = SPI_MODE_MASTER;
+	  hspi4.Init.Direction = SPI_DIRECTION_2LINES;
+	  hspi4.Init.DataSize = SPI_DATASIZE_16BIT;
+	  hspi4.Init.CLKPolarity = SPI_POLARITY_LOW;
+	  hspi4.Init.CLKPhase = SPI_PHASE_2EDGE;
+	  hspi4.Init.NSS = SPI_NSS_HARD_OUTPUT;
+	  hspi4.Init.BaudRatePrescaler = SPI_BAUDRATEPRESCALER_256;
+	  hspi4.Init.FirstBit = SPI_FIRSTBIT_MSB;
+	  hspi4.Init.TIMode = SPI_TIMODE_DISABLE;
+	  hspi4.Init.CRCCalculation = SPI_CRCCALCULATION_DISABLE;
+	  hspi4.Init.CRCPolynomial = 10;
+	  if (HAL_SPI_Init(&hspi4) != HAL_OK)
+	  {
+	    return false;
+	  }
+	  return true;
+}
+
+
+uint16_t tx_rx_spi(uint16_t configWord){
+
+	uint16_t response;
+	uint8_t j;
+
+	HAL_SPI_TransmitReceive(&hspi4, (uint8_t *)&configWord, (uint8_t *)&response, 1, 0xFFFFFFFF );
 
 	__HAL_SPI_DISABLE(&hspi4);
 	for (j = 0; j < 20; j++)
 		;
 	__HAL_SPI_ENABLE(&hspi4);
 
+	return response;
+}
 
 
-	/* Env�o de las sucesivas palabras de configuraci�n y recuperaci�n de los datos �tiles */
+// Adición ex post: convierte los canales con manejo de señales
+// de bajo nivel
+uint16_t read_ads_data(uint16_t *readBuffer, uint8_t buffSize) {
 
+	uint16_t configADC[4] = {
+			ADS1018_CFG_SS | ADS1018_CFG_CH2 | ADS1018_CFG_PGA | ADS1018_CFG_MODE | ADS1018_CFG_DR | ADS1018_CFG_PU_EN | ADS1018_CFG_NOP | ADS1018_CFG_RSV,
+			ADS1018_CFG_SS | ADS1018_CFG_CH1 | ADS1018_CFG_PGA | ADS1018_CFG_MODE | ADS1018_CFG_DR | ADS1018_CFG_PU_EN | ADS1018_CFG_NOP | ADS1018_CFG_RSV,
+			ADS1018_CFG_SS | ADS1018_CFG_TINT| ADS1018_CFG_PGA | ADS1018_CFG_MODE | ADS1018_CFG_DR | ADS1018_CFG_PU_EN | ADS1018_CFG_NOP | ADS1018_CFG_RSV,
+			0x0001 };
+	uint8_t i;
+
+	/** Envía la primera palabra de configuración. Se descarta el dato recibido
+	 * porque es de la medición anterior */
+	tx_rx_spi(configADC[0]);
+
+	/* Envía las sucesivas palabras de configuración y recupera de los datos útiles */
 	for (i = 0; i < 3; i++) {
-		// Espero que indique dato nuevo disponible
+		// Espera que indique dato nuevo disponible
 		while (HAL_GPIO_ReadPin(GPIOF, GPIO_PIN_8) == 0)
 			;
-		//while (GPIO_getInputPinValue(GPIO_PORT_P1, GPIO_PIN4)	== GPIO_INPUT_PIN_HIGH)
 		while (HAL_GPIO_ReadPin(GPIOF, GPIO_PIN_8) == 1)
 			;
 
-		//data[(i * 2) + 1] = SPI_Tx_Rx(configADC[i + 1] >> 8);
-		//data[(i * 2)] = SPI_Tx_Rx(configADC[i + 1]);
-		HAL_SPI_TransmitReceive(&hspi4, &configADCinv[(i+1)*2], (data+(i*2)), 2, 0xFFFFFFFF );
-
-
-		__HAL_SPI_DISABLE(&hspi4);
-		for (j = 0; j < 20; j++)
-			;
-		__HAL_SPI_ENABLE(&hspi4);
+		readBuffer[i] = (tx_rx_spi(configADC[i + 1])) >> 4;
 	}
 	__HAL_SPI_DISABLE(&hspi4);
+	return 6;
 }
+
 /* USER CODE END 4 */
 
 /**
