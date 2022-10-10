@@ -23,7 +23,7 @@
 #include <stdint.h>
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-
+#include "ADS1018.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -33,23 +33,6 @@
 
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
-/***************************** Definiciones de pines ***********************************/
-//#define     ADS1018_SPI_CLK             (0x0001)    // P3.0 Output: CLK para ADS1018
-//#define     ADS1018_SPI_SIMO            (0x0010)    // P3.4 Output: SIMO para ADS1018
-//#define     ADS1018_SPI_SOMI            (0x0020)    // P3.5 Input: SOMI para ADS1018
-//#define     ADS1018_SPI_SS              (0x0008)    // P4.3 Output: SS para ADS1018
-//#define     ADS1018_DRY                 (0x0008)    // P2.3 Input: DRY para ADS1018
-
-#define     ADS1018_CFG_SS              (0x8000)
-#define     ADS1018_CFG_CH1             (0x0000)
-#define     ADS1018_CFG_CH2             (0x3000)
-#define     ADS1018_CFG_TINT            (0x0010)
-#define     ADS1018_CFG_PGA             (0x0E00)
-#define     ADS1018_CFG_MODE            (0x0100)
-#define     ADS1018_CFG_DR              (0x00A0)
-#define     ADS1018_CFG_PU_EN           (0x0008)
-#define     ADS1018_CFG_NOP             (0x0002)
-#define     ADS1018_CFG_RSV             (0x0001)
 /* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/
@@ -65,14 +48,14 @@ ETH_DMADescTypeDef  DMATxDscrTab[ETH_TX_DESC_CNT]; /* Ethernet Tx DMA Descriptor
 
 ETH_HandleTypeDef heth;
 
-SPI_HandleTypeDef hspi4;
+//SPI_HandleTypeDef hspi4;
 
 UART_HandleTypeDef huart3;
 
 PCD_HandleTypeDef hpcd_USB_OTG_FS;
 
 /* USER CODE BEGIN PV */
-
+uint16_t MSP_Access_Data[3] = { 0 };
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -84,17 +67,6 @@ static void MX_USB_OTG_FS_PCD_Init(void);
 //static void MX_SPI4_Init(void);
 /* USER CODE BEGIN PFP */
 
-/* ADS1018 */
-bool init_ads(void);
-uint8_t read_ads(uint16_t *dataBuffer, uint8_t buffSize);
-
-/* ADS_BSP */
-bool init_ads_spi(void);
-uint16_t tx_rx_spi(uint16_t configWord);
-// Adición ex post: convierte los canales con manejo de señales
-// de bajo nivel
-uint16_t read_ads_data(uint16_t *readBuffer, uint8_t buffSize);
-
 /* SENS_COMM */
 bool init_comm(void);
 bool tx_data(uint8_t *dataBuffer);
@@ -104,7 +76,6 @@ bool rx_data(uint8_t *dataBuffer, uint8_t buffSize);
 bool init_uart(void);
 bool tx_uart(uint8_t *dataBuffer, uint8_t buffSize);
 bool rx_uart(uint8_t *dataBuffer, uint8_t buffSize);
-
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
@@ -116,56 +87,60 @@ bool rx_uart(uint8_t *dataBuffer, uint8_t buffSize);
   * @brief  The application entry point.
   * @retval int
   */
-int main(void)
-{
-  /* USER CODE BEGIN 1 */
-	uint16_t MSP_Access_Data[3] = { 0 };
+int main(void) {
+	/* USER CODE BEGIN 1 */
+
 	uint16_t tin, tc1, tc2;
-  /* USER CODE END 1 */
+	/* USER CODE END 1 */
 
-  /* MCU Configuration--------------------------------------------------------*/
+	/* MCU Configuration--------------------------------------------------------*/
 
-  /* Reset of all peripherals, Initializes the Flash interface and the Systick. */
-  HAL_Init();
+	/* Reset of all peripherals, Initializes the Flash interface and the Systick. */
+	HAL_Init();
 
-  /* USER CODE BEGIN Init */
+	/* USER CODE BEGIN Init */
 
-  /* USER CODE END Init */
+	/* USER CODE END Init */
 
-  /* Configure the system clock */
-  SystemClock_Config();
+	/* Configure the system clock */
+	SystemClock_Config();
 
-  /* USER CODE BEGIN SysInit */
+	/* USER CODE BEGIN SysInit */
 
-  /* USER CODE END SysInit */
+	/* USER CODE END SysInit */
 
-  /* Initialize all configured peripherals */
-  MX_GPIO_Init();
-  MX_ETH_Init();
-  MX_USART3_UART_Init();
-  MX_USB_OTG_FS_PCD_Init();
+	/* Initialize all configured peripherals */
+	MX_GPIO_Init();
+	MX_ETH_Init();
+	MX_USART3_UART_Init();
+	MX_USB_OTG_FS_PCD_Init();
 //  MX_SPI4_Init();
-  /* USER CODE BEGIN 2 */
-  init_ads();
-  /* USER CODE END 2 */
+	/* USER CODE BEGIN 2 */
+	init_ads();
+	/* USER CODE END 2 */
 
-  /* Infinite loop */
-  /* USER CODE BEGIN WHILE */
-  while (1)
-  {
-	  read_ads(MSP_Access_Data, 3);
-	  //tin = (MSP_Access_Data[5] >> 4) + (((uint16_t)MSP_Access_Data[4]) << 4);
-	 // tc1 = (MSP_Access_Data[3] >> 4) + (((uint16_t)MSP_Access_Data[2]) << 4);
-	 // tc2 = (MSP_Access_Data[6] >> 1) + (((uint16_t)MSP_Access_Data[5]) << 0);
-	 // HAL_UART_Transmit(&huart3, MSP_Access_Data, 6, 0xFFFF);
-	  //HAL_UART_Transmit(&huart3, "\r\n", 2, 0xFFFF);
+	/* Infinite loop */
+	/* USER CODE BEGIN WHILE */
+	while (1) {
 
-	  HAL_Delay(1000);
-    /* USER CODE END WHILE */
+		//tin = (MSP_Access_Data[5] >> 4) + (((uint16_t)MSP_Access_Data[4]) << 4);
+		// tc1 = (MSP_Access_Data[3] >> 4) + (((uint16_t)MSP_Access_Data[2]) << 4);
+		// tc2 = (MSP_Access_Data[6] >> 1) + (((uint16_t)MSP_Access_Data[5]) << 0);
+		// HAL_UART_Transmit(&huart3, MSP_Access_Data, 6, 0xFFFF);
+		//HAL_UART_Transmit(&huart3, "\r\n", 2, 0xFFFF);
 
-    /* USER CODE BEGIN 3 */
-  }
-  /* USER CODE END 3 */
+		HAL_Delay(1000);
+		HAL_GPIO_TogglePin(LD2_GPIO_Port, LD2_Pin);
+
+		/* Se debe suspender el Tick para que no se despierte cada 1ms */
+		HAL_SuspendTick();
+		HAL_PWR_EnterSLEEPMode(PWR_MAINREGULATOR_ON, PWR_SLEEPENTRY_WFI);
+		HAL_ResumeTick();
+		/* USER CODE END WHILE */
+
+		/* USER CODE BEGIN 3 */
+	}
+	/* USER CODE END 3 */
 }
 
 /**
@@ -395,7 +370,7 @@ static void MX_GPIO_Init(void)
 
   /*Configure GPIO pin : USER_Btn_Pin */
   GPIO_InitStruct.Pin = USER_Btn_Pin;
-  GPIO_InitStruct.Mode = GPIO_MODE_IT_RISING;
+  GPIO_InitStruct.Mode = GPIO_MODE_IT_FALLING;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   HAL_GPIO_Init(USER_Btn_GPIO_Port, &GPIO_InitStruct);
 
@@ -425,90 +400,28 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   HAL_GPIO_Init(USB_OverCurrent_GPIO_Port, &GPIO_InitStruct);
 
+  /* EXTI interrupt init*/
+  HAL_NVIC_SetPriority(EXTI15_10_IRQn, 0, 0);
+  HAL_NVIC_EnableIRQ(EXTI15_10_IRQn);
+
 }
 
 /* USER CODE BEGIN 4 */
-bool init_ads(void){
-	if(init_ads_spi() == true)
-		return true;
-	else
-		return false;
+/**
+  * @brief  EXTI line detection callbacks.
+  * @param  GPIO_Pin Specifies the pins connected EXTI line
+  * @retval None
+  */
+void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
+{
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(GPIO_Pin);
+  HAL_GPIO_TogglePin(LD1_GPIO_Port, LD1_Pin);
+  read_ads(MSP_Access_Data, 3);
+  /* NOTE: This function Should not be modified, when the callback is needed,
+           the HAL_GPIO_EXTI_Callback could be implemented in the user file
+   */
 }
-
-
-uint8_t read_ads(uint16_t *dataBuffer, uint8_t buffSize){
-
-	read_ads_data(dataBuffer, buffSize);
-
-	return 6;
-}
-
-bool init_ads_spi(void){
-	  hspi4.Instance = SPI4;
-	  hspi4.Init.Mode = SPI_MODE_MASTER;
-	  hspi4.Init.Direction = SPI_DIRECTION_2LINES;
-	  hspi4.Init.DataSize = SPI_DATASIZE_16BIT;
-	  hspi4.Init.CLKPolarity = SPI_POLARITY_LOW;
-	  hspi4.Init.CLKPhase = SPI_PHASE_2EDGE;
-	  hspi4.Init.NSS = SPI_NSS_HARD_OUTPUT;
-	  hspi4.Init.BaudRatePrescaler = SPI_BAUDRATEPRESCALER_256;
-	  hspi4.Init.FirstBit = SPI_FIRSTBIT_MSB;
-	  hspi4.Init.TIMode = SPI_TIMODE_DISABLE;
-	  hspi4.Init.CRCCalculation = SPI_CRCCALCULATION_DISABLE;
-	  hspi4.Init.CRCPolynomial = 10;
-	  if (HAL_SPI_Init(&hspi4) != HAL_OK)
-	  {
-	    return false;
-	  }
-	  return true;
-}
-
-
-uint16_t tx_rx_spi(uint16_t configWord){
-
-	uint16_t response;
-	uint8_t j;
-
-	HAL_SPI_TransmitReceive(&hspi4, (uint8_t *)&configWord, (uint8_t *)&response, 1, 0xFFFFFFFF );
-
-	__HAL_SPI_DISABLE(&hspi4);
-	for (j = 0; j < 20; j++)
-		;
-	__HAL_SPI_ENABLE(&hspi4);
-
-	return response;
-}
-
-
-// Adición ex post: convierte los canales con manejo de señales
-// de bajo nivel
-uint16_t read_ads_data(uint16_t *readBuffer, uint8_t buffSize) {
-
-	uint16_t configADC[4] = {
-			ADS1018_CFG_SS | ADS1018_CFG_CH2 | ADS1018_CFG_PGA | ADS1018_CFG_MODE | ADS1018_CFG_DR | ADS1018_CFG_PU_EN | ADS1018_CFG_NOP | ADS1018_CFG_RSV,
-			ADS1018_CFG_SS | ADS1018_CFG_CH1 | ADS1018_CFG_PGA | ADS1018_CFG_MODE | ADS1018_CFG_DR | ADS1018_CFG_PU_EN | ADS1018_CFG_NOP | ADS1018_CFG_RSV,
-			ADS1018_CFG_SS | ADS1018_CFG_TINT| ADS1018_CFG_PGA | ADS1018_CFG_MODE | ADS1018_CFG_DR | ADS1018_CFG_PU_EN | ADS1018_CFG_NOP | ADS1018_CFG_RSV,
-			0x0001 };
-	uint8_t i;
-
-	/** Envía la primera palabra de configuración. Se descarta el dato recibido
-	 * porque es de la medición anterior */
-	tx_rx_spi(configADC[0]);
-
-	/* Envía las sucesivas palabras de configuración y recupera de los datos útiles */
-	for (i = 0; i < 3; i++) {
-		// Espera que indique dato nuevo disponible
-		while (HAL_GPIO_ReadPin(GPIOF, GPIO_PIN_8) == 0)
-			;
-		while (HAL_GPIO_ReadPin(GPIOF, GPIO_PIN_8) == 1)
-			;
-
-		readBuffer[i] = (tx_rx_spi(configADC[i + 1])) >> 4;
-	}
-	__HAL_SPI_DISABLE(&hspi4);
-	return 6;
-}
-
 /* USER CODE END 4 */
 
 /**

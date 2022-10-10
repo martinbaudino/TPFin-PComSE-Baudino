@@ -19,7 +19,7 @@
 /* USER CODE END Header */
 
 /* Includes ------------------------------------------------------------------*/
-#include <sensorApp.h>
+#include "sensorApp.h"
 /* USER CODE BEGIN Includes */
 
 /* USER CODE END Includes */
