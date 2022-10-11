@@ -222,17 +222,17 @@ void update_sens_fsm(void) {
 		globalFSM = E3SendUart;
 		break;
 	case E3SendUart:
-		sprintf((char*) str, "T1:\t0x%04x\r\n", ADS1018_Data[0]);
+		sprintf((char*) str, "T1:0x%04x\t", ADS1018_Data[0]);
 		if (!tx_data(str)) {
 			Error_Handler();
 		}
 
-		sprintf((char*) str, "T2:\t0x%04x\r\n", ADS1018_Data[1]);
+		sprintf((char*) str, "T2: 0x%04x\t", ADS1018_Data[1]);
 		if (!tx_data(str)) {
 			Error_Handler();
 		}
 
-		sprintf((char*) str, "TIn:\t0x%04x\r\n", ADS1018_Data[2]);
+		sprintf((char*) str, "TIn: 0x%04x\r\n", ADS1018_Data[2]);
 		if (!tx_data(str)) {
 			Error_Handler();
 		}

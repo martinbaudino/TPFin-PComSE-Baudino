@@ -149,35 +149,38 @@ uint8_t read_ads_data(uint16_t *readBuffer, uint8_t buffSize) {
 			| ADS1018_CFG_RSV, 0x0001 };
 	uint8_t i;
 
-	/** Envía la primera palabra de configuración. Se descarta el dato recibido
-	 * porque es de la medición anterior
-	 */
-	tx_rx_spi(configADC[0]);
-
-	/**
-	 *  Envía las sucesivas palabras de configuración y recupera de los datos útiles
-	 */
-	for (i = 0; i < 3; i++) {
-		// Espera que indique dato nuevo disponible
-		while (HAL_GPIO_ReadPin(GPIOF, GPIO_PIN_8) == 0)
-			;
-		while (HAL_GPIO_ReadPin(GPIOF, GPIO_PIN_8) == 1)
-			;
-		/**
-		 * El ADS1018 es un ADC de 12 bits y los valores adquiridos se
-		 * encuentran en una palabra de 16 bits justificados a la izquierda,
-		 * es necesario corregir esto antes de devolver los datos.
+	if (readBuffer != NULL) {
+		/** Envía la primera palabra de configuración. Se descarta el dato
+		 * recibido porque es de la medición anterior
 		 */
-		readBuffer[i] = (tx_rx_spi(configADC[i + 1])) >> 4;
-	}
-	/**
-	 * Al finalizar el ciclo de las 4 conversiones se deshabilita el módulo SPI
-	 */
-	__HAL_SPI_DISABLE(&hspi4);
+		tx_rx_spi(configADC[0]);
 
-	/**
-	 * Devuelve siempre que se leyeron 3 datos
-	 */
-	return ADS_FULLDATA;
+		/**
+		 *  Envía sucesivas palabras de configuración y recupera datos útiles
+		 */
+		for (i = 0; i < 3; i++) {
+			// Espera que indique dato nuevo disponible
+			while (HAL_GPIO_ReadPin(GPIOF, GPIO_PIN_8) == 0)
+				;
+			while (HAL_GPIO_ReadPin(GPIOF, GPIO_PIN_8) == 1)
+				;
+			/**
+			 * El ADS1018 es un ADC de 12 bits y devuelve valores adquiridos
+			 * en una palabra de 16 bits justificados a la izquierda: es
+			 *  necesario corregir esto antes de devolver los datos.
+			 */
+			readBuffer[i] = (tx_rx_spi(configADC[i + 1])) >> 4;
+		}
+		/**
+		 * Al finalizar el ciclo de las 4 conversiones se deshabilita el módulo SPI
+		 */
+		__HAL_SPI_DISABLE(&hspi4);
+
+		/**
+		 * Devuelve siempre que se leyeron 3 datos
+		 */
+		return ADS_FULLDATA;
+	}
+	return ADS_NODATA;
 }
 

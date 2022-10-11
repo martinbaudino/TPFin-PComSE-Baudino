@@ -15,6 +15,7 @@
 
 /* Exported constants --------------------------------------------------------*/
 #define ADS_FULLDATA 3U
+#define ADS_NODATA 	 0U
 
 /* Exported functions prototypes ---------------------------------------------*/
 bool init_ads_spi(void);
