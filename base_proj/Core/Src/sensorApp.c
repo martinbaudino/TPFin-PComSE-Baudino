@@ -31,11 +31,14 @@ typedef enum {
 } sens_fsm_state;
 
 /* Private define ------------------------------------------------------------*/
+
+#define STR_SIZE 20
+
 /* Private macro -------------------------------------------------------------*/
 /* Private variables ---------------------------------------------------------*/
 
-uint16_t ADS1018_Data[3] = { 0 };
-uint8_t str[20];
+uint16_t ADS1018_Data[ADS_FULLDATA] = { 0 };
+uint8_t str[STR_SIZE];
 sens_fsm_state globalFSM;
 
 /* Private function prototypes -----------------------------------------------*/
