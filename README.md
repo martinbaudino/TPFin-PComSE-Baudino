@@ -17,22 +17,24 @@ Para el desarrollo del prototipo se dispone de una placa NUCLEO-F429, un circuit
 
 ![Conexión de Termocuplas con ADS1018 ©Texas Instruments](01_Thermocouple_Setup_Edit.png)
 
-La conexión de las termocuplas sigue el circuito propuesto por el fabricante y las conexiones con la placa nucleo se realizan de la siguiente manera:
+La conexión de las termocuplas sigue el circuito propuesto por el fabricante y las conexiones con la placa NUCLEO se realizan de la siguiente manera:
 
 | **ADS1018**  | **NUCLEO-F429**              |
 |:------------:|:----------------------------:|
 | SCLK         | PIN24 - PE_2 - **SPI4_SCK**  |
 | /CS          | PIN23 - PE_4 - **SPI4_CS**   |
 | DOUT/DRY     | PIN22 - PE_5 - **SPI4_MISO** | 
-| DOUT/DRY     | PIN19 - PE_6 - **SPI4_MISO** |
-| DIN          | PIN21 - PF_8 - **SPI4_MOSI** |
+| DOUT/DRY     | PIN19 - PE_6 - **SPI4_MOSI** |
+| DIN          | PIN21 - **PF_8**             |
+
+Es importante destacar que el ADS1018 pone la señal **MISO** en bajo cuando termina una conversión, con /CS en bajo y sin señal de reloj, por lo que se utiliza esta señal conectada al pin **PF_8** para que el microcontrolador solicite el dato que se acaba de adquirir.
 
 ### Driver Desarrollado
 
-Para cumplir con los requerimientos del trabajo integrador, se creó la siguiente esturctura de carpetas y archivos:
+Para cumplir con los requerimientos del trabajo integrador, se creó la siguiente estructura de carpetas y archivos:
 
 ```
-TPFin-PComSE-Baudino/    // Raiz del repositorio
+TPFin-PComSE-Baudino/    // Raíz del repositorio
 |---ADS1018/             // Driver desarrollado
 |   |---src/
 |   |    |---ADS1018.c    // Funciones de alto nivel
@@ -45,6 +47,8 @@ TPFin-PComSE-Baudino/    // Raiz del repositorio
 |
 |---base_proj/...        // Proyecto de ejemplo que utiliza el driver
 ```
+
+En esta configuración el microcontrolador funciona como Maestro en la conexión SPI en Modo 1, con el reloj en bajo cuando está inactivo (CPOL=0) y muestreo de la señal de entrada en flanco negativo (CPHA=1). Además, el reloj del puerto SPI opera a 164,062 Kbit/s y el control de la señal de habiliación para el esclavo lo hace automáticamente el hardware.
 
 * **ADS1018**: Funciones de la Interfaz de Programación de Aplicación de alto nivel del ADC ADS1018. 
 
@@ -77,6 +81,13 @@ uint16_t tx_rx_spi(uint16_t configWord);
 
 ### Mediciones Realizadas
 
+En la siguiente figura se puede observar una trama completa la tercer lectura de un ciclo, correspondiente al sensor de temperatura interno, cuyos pasos más relevantes son los siguientes:
+
+1. Con la señal de habilitación (/CS) en bajo, el ADS1018 pone en bajo la señal MISO cuando termina de realizar una medición. 
+2. El microcontrolador detecta la transición [1] en su pin **PF_8** y habilita la salida de pulsos de reloj para que el ADS1018  le envíe el valor que acaba de adquirir.
+3. El microcontrolador genera un pulso de más de 200ns para forzar el reinicio de la interfaz SPI del ADS1018.
+4. La interfaz SPI reiniciada pone en alto la señal **MISO** indicando que no tiene un nuevo valor adquirido. En este caso no se realizarán más mediciones porque es la última del ciclo. En los otros casos esta señal estará en alto hasta que se termine de realizar una medición (Paso 1).
+5. El microcontrolador pone en alto la señal /CS indicando al ADS1018 que entre en modo de bajo consumo.
 
 ![Captura de medición del sensor interno de temperatura del ADS1018](02_SPI_Read_Edit.png)
 
