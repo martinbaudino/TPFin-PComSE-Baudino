@@ -13,7 +13,11 @@ El Circuito Integrado (IC) ADS1018, fabricado por Texas Instruments, es un Conve
 
 Se implementa un sensor de temperatura de bajo consumo de disparo único utilizando la placa NUCLEO-F429ZI. Para ello se desarrollaron los drivers correspondientes según los requerimientos y el modelo aprendido durante el cursado de la materia, teniendo también en cuenta el código de referencia en lenguaje C que el fabricante ofrece para la familia de microcontroladores MSP432.
  
-Para el desarrollo del prototipo se dispone de una placa NUCLEO-F429, un circuito impreso con un ADS1018, dos termocuplas, y un analizador lógico de bajo costo. La conexión de las termocuplas sigue el circuito propuesto por el fabricante y las conexiones con la placa nucleo se realizan de la siguiente manera:
+Para el desarrollo del prototipo se dispone de una placa NUCLEO-F429, un circuito impreso con un ADS1018, dos termocuplas, y un analizador lógico de bajo costo.
+
+![Conexión de Termocuplas con ADS1018 ©Texas Instruments](01_Thermocouple_Setup_Edit.png)
+
+La conexión de las termocuplas sigue el circuito propuesto por el fabricante y las conexiones con la placa nucleo se realizan de la siguiente manera:
 
 | **ADS1018**  | **NUCLEO-F429**              |
 |:------------:|:----------------------------:|
@@ -23,7 +27,20 @@ Para el desarrollo del prototipo se dispone de una placa NUCLEO-F429, un circuit
 | DOUT/DRY     | PIN19 - PE_6 - **SPI4_MISO** |
 | DIN          | PIN21 - PF_8 - **SPI4_MOSI** |
 
-![Conexión de Termocuplas con ADS1018 ©Texas Instruments](01_Thermocouple_Setup_Edit.png)
+### Organización del Repositorio
+
+Para seguir con los requerimientos del trabajo integrador, se creó la siguiente esturctura de carpetas y archivos:
+TPFin-PComSE-Baudino/      // Raiz del repositorio
+|---ADS1018/               // Driver desarrollado
+|   |---src/
+|       |---ADS1018.c
+|       |---port.c
+|   
+|---|---inc/
+|       |---ADS1018.h
+|
+|---base_proj/             // Proyecto de ejemplo que utiliza el driver
+
 
 
 ### Driver Desarrollado
