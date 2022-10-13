@@ -30,6 +30,8 @@ La conexión de las termocuplas sigue el circuito propuesto por el fabricante y 
 ### Organización del Repositorio
 
 Para seguir con los requerimientos del trabajo integrador, se creó la siguiente esturctura de carpetas y archivos:
+
+```
 TPFin-PComSE-Baudino/      // Raiz del repositorio
 |---ADS1018/               // Driver desarrollado
 |   |---src/
@@ -40,7 +42,7 @@ TPFin-PComSE-Baudino/      // Raiz del repositorio
 |       |---ADS1018.h
 |
 |---base_proj/             // Proyecto de ejemplo que utiliza el driver
-
+```
 
 
 ### Driver Desarrollado
