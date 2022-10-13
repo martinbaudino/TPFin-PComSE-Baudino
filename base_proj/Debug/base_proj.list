@@ -37,15 +37,15 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, READONLY, DEBUGGING, OCTETS
  16 .debug_ranges 000008d0  00000000  00000000  0002e1a8  2**3
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 17 .debug_macro  00024ebd  00000000  00000000  0002ea78  2**0
+ 17 .debug_macro  00024ea9  00000000  00000000  0002ea78  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 18 .debug_line   0000ca47  00000000  00000000  00053935  2**0
+ 18 .debug_line   0000ca2e  00000000  00000000  00053921  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 19 .debug_str    000dabdc  00000000  00000000  0006037c  2**0
+ 19 .debug_str    000dabc5  00000000  00000000  0006034f  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 20 .comment      00000050  00000000  00000000  0013af58  2**0
+ 20 .comment      00000050  00000000  00000000  0013af14  2**0
                   CONTENTS, READONLY
- 21 .debug_frame  000029a0  00000000  00000000  0013afa8  2**2
+ 21 .debug_frame  000029a0  00000000  00000000  0013af64  2**2
                   CONTENTS, READONLY, DEBUGGING, OCTETS
 
 Disassembly of section .text:
@@ -445,7 +445,7 @@ int main(void) {
 	MX_GPIO_Init();
  80005b0:	f000 f884 	bl	80006bc <MX_GPIO_Init>
 	if (!init_comm()) {
- 80005b4:	f000 fb92 	bl	8000cdc <init_comm>
+ 80005b4:	f000 fc52 	bl	8000e5c <init_comm>
  80005b8:	4603      	mov	r3, r0
  80005ba:	f083 0301 	eor.w	r3, r3, #1
  80005be:	b2db      	uxtb	r3, r3
@@ -958,7 +958,7 @@ void update_sens_fsm(void) {
  800091e:	f002 fa53 	bl	8002dc8 <siprintf>
 		if (!tx_data(str)) {
  8000922:	4823      	ldr	r0, [pc, #140]	; (80009b0 <update_sens_fsm+0x118>)
- 8000924:	f000 f9e1 	bl	8000cea <tx_data>
+ 8000924:	f000 faa1 	bl	8000e6a <tx_data>
  8000928:	4603      	mov	r3, r0
  800092a:	f083 0301 	eor.w	r3, r3, #1
  800092e:	b2db      	uxtb	r3, r3
@@ -977,7 +977,7 @@ void update_sens_fsm(void) {
  8000942:	f002 fa41 	bl	8002dc8 <siprintf>
 		if (!tx_data(str)) {
  8000946:	481a      	ldr	r0, [pc, #104]	; (80009b0 <update_sens_fsm+0x118>)
- 8000948:	f000 f9cf 	bl	8000cea <tx_data>
+ 8000948:	f000 fa8f 	bl	8000e6a <tx_data>
  800094c:	4603      	mov	r3, r0
  800094e:	f083 0301 	eor.w	r3, r3, #1
  8000952:	b2db      	uxtb	r3, r3
@@ -996,7 +996,7 @@ void update_sens_fsm(void) {
  8000966:	f002 fa2f 	bl	8002dc8 <siprintf>
 		if (!tx_data(str)) {
  800096a:	4811      	ldr	r0, [pc, #68]	; (80009b0 <update_sens_fsm+0x118>)
- 800096c:	f000 f9bd 	bl	8000cea <tx_data>
+ 800096c:	f000 fa7d 	bl	8000e6a <tx_data>
  8000970:	4603      	mov	r3, r0
  8000972:	f083 0301 	eor.w	r3, r3, #1
  8000976:	b2db      	uxtb	r3, r3
@@ -1744,7 +1744,7 @@ bool init_ads(void) {
  8000cae:	b580      	push	{r7, lr}
  8000cb0:	af00      	add	r7, sp, #0
 	return init_ads_spi();
- 8000cb2:	f000 f827 	bl	8000d04 <init_ads_spi>
+ 8000cb2:	f000 f813 	bl	8000cdc <init_ads_spi>
  8000cb6:	4603      	mov	r3, r0
 }
  8000cb8:	4618      	mov	r0, r3
@@ -1768,7 +1768,7 @@ uint8_t read_ads(uint16_t *dataBuffer, uint8_t buffSize) {
  8000cc8:	78fb      	ldrb	r3, [r7, #3]
  8000cca:	4619      	mov	r1, r3
  8000ccc:	6878      	ldr	r0, [r7, #4]
- 8000cce:	f000 f881 	bl	8000dd4 <read_ads_data>
+ 8000cce:	f000 f86d 	bl	8000dac <read_ads_data>
  8000cd2:	4603      	mov	r3, r0
 
 }
@@ -1777,306 +1777,310 @@ uint8_t read_ads(uint16_t *dataBuffer, uint8_t buffSize) {
  8000cd8:	46bd      	mov	sp, r7
  8000cda:	bd80      	pop	{r7, pc}
 
-08000cdc <init_comm>:
- * @brief Inicializa una interfaz de comunicación de manera abstracta
- *
- * @return Verdadero o falso, depende del resultado de la inicialización del
- * hardware específico
- */
-bool init_comm(void) {
- 8000cdc:	b580      	push	{r7, lr}
- 8000cde:	af00      	add	r7, sp, #0
-	return init_uart();
- 8000ce0:	f000 f8d0 	bl	8000e84 <init_uart>
- 8000ce4:	4603      	mov	r3, r0
-}
- 8000ce6:	4618      	mov	r0, r3
- 8000ce8:	bd80      	pop	{r7, pc}
-
-08000cea <tx_data>:
- *
- * @param dataBuffer Memoria reservada para lectura de datos
- * @return Verdadero o falso, depende del resultado de la operación del
- * hardware
- */
-bool tx_data(uint8_t *dataBuffer) {
- 8000cea:	b580      	push	{r7, lr}
- 8000cec:	b082      	sub	sp, #8
- 8000cee:	af00      	add	r7, sp, #0
- 8000cf0:	6078      	str	r0, [r7, #4]
-	return tx_uart(dataBuffer);
- 8000cf2:	6878      	ldr	r0, [r7, #4]
- 8000cf4:	f000 f8f6 	bl	8000ee4 <tx_uart>
- 8000cf8:	4603      	mov	r3, r0
-}
- 8000cfa:	4618      	mov	r0, r3
- 8000cfc:	3708      	adds	r7, #8
- 8000cfe:	46bd      	mov	sp, r7
- 8000d00:	bd80      	pop	{r7, pc}
-	...
-
-08000d04 <init_ads_spi>:
+08000cdc <init_ads_spi>:
  * (CPHA=1).
  *
  * @return Verdadero o falso, depende del resultado de la inicialización del
  * periférico SPI4
  */
 bool init_ads_spi(void) {
- 8000d04:	b580      	push	{r7, lr}
- 8000d06:	af00      	add	r7, sp, #0
+ 8000cdc:	b580      	push	{r7, lr}
+ 8000cde:	af00      	add	r7, sp, #0
 	hspi4.Instance = SPI4;
- 8000d08:	4b18      	ldr	r3, [pc, #96]	; (8000d6c <init_ads_spi+0x68>)
- 8000d0a:	4a19      	ldr	r2, [pc, #100]	; (8000d70 <init_ads_spi+0x6c>)
- 8000d0c:	601a      	str	r2, [r3, #0]
+ 8000ce0:	4b18      	ldr	r3, [pc, #96]	; (8000d44 <init_ads_spi+0x68>)
+ 8000ce2:	4a19      	ldr	r2, [pc, #100]	; (8000d48 <init_ads_spi+0x6c>)
+ 8000ce4:	601a      	str	r2, [r3, #0]
 	hspi4.Init.Mode = SPI_MODE_MASTER;
- 8000d0e:	4b17      	ldr	r3, [pc, #92]	; (8000d6c <init_ads_spi+0x68>)
- 8000d10:	f44f 7282 	mov.w	r2, #260	; 0x104
- 8000d14:	605a      	str	r2, [r3, #4]
+ 8000ce6:	4b17      	ldr	r3, [pc, #92]	; (8000d44 <init_ads_spi+0x68>)
+ 8000ce8:	f44f 7282 	mov.w	r2, #260	; 0x104
+ 8000cec:	605a      	str	r2, [r3, #4]
 	hspi4.Init.Direction = SPI_DIRECTION_2LINES;
- 8000d16:	4b15      	ldr	r3, [pc, #84]	; (8000d6c <init_ads_spi+0x68>)
- 8000d18:	2200      	movs	r2, #0
- 8000d1a:	609a      	str	r2, [r3, #8]
+ 8000cee:	4b15      	ldr	r3, [pc, #84]	; (8000d44 <init_ads_spi+0x68>)
+ 8000cf0:	2200      	movs	r2, #0
+ 8000cf2:	609a      	str	r2, [r3, #8]
 	hspi4.Init.DataSize = SPI_DATASIZE_16BIT;
- 8000d1c:	4b13      	ldr	r3, [pc, #76]	; (8000d6c <init_ads_spi+0x68>)
- 8000d1e:	f44f 6200 	mov.w	r2, #2048	; 0x800
- 8000d22:	60da      	str	r2, [r3, #12]
+ 8000cf4:	4b13      	ldr	r3, [pc, #76]	; (8000d44 <init_ads_spi+0x68>)
+ 8000cf6:	f44f 6200 	mov.w	r2, #2048	; 0x800
+ 8000cfa:	60da      	str	r2, [r3, #12]
 	hspi4.Init.CLKPolarity = SPI_POLARITY_LOW;
- 8000d24:	4b11      	ldr	r3, [pc, #68]	; (8000d6c <init_ads_spi+0x68>)
- 8000d26:	2200      	movs	r2, #0
- 8000d28:	611a      	str	r2, [r3, #16]
+ 8000cfc:	4b11      	ldr	r3, [pc, #68]	; (8000d44 <init_ads_spi+0x68>)
+ 8000cfe:	2200      	movs	r2, #0
+ 8000d00:	611a      	str	r2, [r3, #16]
 	hspi4.Init.CLKPhase = SPI_PHASE_2EDGE;
- 8000d2a:	4b10      	ldr	r3, [pc, #64]	; (8000d6c <init_ads_spi+0x68>)
- 8000d2c:	2201      	movs	r2, #1
- 8000d2e:	615a      	str	r2, [r3, #20]
+ 8000d02:	4b10      	ldr	r3, [pc, #64]	; (8000d44 <init_ads_spi+0x68>)
+ 8000d04:	2201      	movs	r2, #1
+ 8000d06:	615a      	str	r2, [r3, #20]
 	hspi4.Init.NSS = SPI_NSS_HARD_OUTPUT;
- 8000d30:	4b0e      	ldr	r3, [pc, #56]	; (8000d6c <init_ads_spi+0x68>)
- 8000d32:	f44f 2280 	mov.w	r2, #262144	; 0x40000
- 8000d36:	619a      	str	r2, [r3, #24]
+ 8000d08:	4b0e      	ldr	r3, [pc, #56]	; (8000d44 <init_ads_spi+0x68>)
+ 8000d0a:	f44f 2280 	mov.w	r2, #262144	; 0x40000
+ 8000d0e:	619a      	str	r2, [r3, #24]
 	hspi4.Init.BaudRatePrescaler = SPI_BAUDRATEPRESCALER_256;
- 8000d38:	4b0c      	ldr	r3, [pc, #48]	; (8000d6c <init_ads_spi+0x68>)
- 8000d3a:	2238      	movs	r2, #56	; 0x38
- 8000d3c:	61da      	str	r2, [r3, #28]
+ 8000d10:	4b0c      	ldr	r3, [pc, #48]	; (8000d44 <init_ads_spi+0x68>)
+ 8000d12:	2238      	movs	r2, #56	; 0x38
+ 8000d14:	61da      	str	r2, [r3, #28]
 	hspi4.Init.FirstBit = SPI_FIRSTBIT_MSB;
- 8000d3e:	4b0b      	ldr	r3, [pc, #44]	; (8000d6c <init_ads_spi+0x68>)
- 8000d40:	2200      	movs	r2, #0
- 8000d42:	621a      	str	r2, [r3, #32]
+ 8000d16:	4b0b      	ldr	r3, [pc, #44]	; (8000d44 <init_ads_spi+0x68>)
+ 8000d18:	2200      	movs	r2, #0
+ 8000d1a:	621a      	str	r2, [r3, #32]
 	hspi4.Init.TIMode = SPI_TIMODE_DISABLE;
- 8000d44:	4b09      	ldr	r3, [pc, #36]	; (8000d6c <init_ads_spi+0x68>)
- 8000d46:	2200      	movs	r2, #0
- 8000d48:	625a      	str	r2, [r3, #36]	; 0x24
+ 8000d1c:	4b09      	ldr	r3, [pc, #36]	; (8000d44 <init_ads_spi+0x68>)
+ 8000d1e:	2200      	movs	r2, #0
+ 8000d20:	625a      	str	r2, [r3, #36]	; 0x24
 	hspi4.Init.CRCCalculation = SPI_CRCCALCULATION_DISABLE;
- 8000d4a:	4b08      	ldr	r3, [pc, #32]	; (8000d6c <init_ads_spi+0x68>)
- 8000d4c:	2200      	movs	r2, #0
- 8000d4e:	629a      	str	r2, [r3, #40]	; 0x28
+ 8000d22:	4b08      	ldr	r3, [pc, #32]	; (8000d44 <init_ads_spi+0x68>)
+ 8000d24:	2200      	movs	r2, #0
+ 8000d26:	629a      	str	r2, [r3, #40]	; 0x28
 	hspi4.Init.CRCPolynomial = 10;
- 8000d50:	4b06      	ldr	r3, [pc, #24]	; (8000d6c <init_ads_spi+0x68>)
- 8000d52:	220a      	movs	r2, #10
- 8000d54:	62da      	str	r2, [r3, #44]	; 0x2c
+ 8000d28:	4b06      	ldr	r3, [pc, #24]	; (8000d44 <init_ads_spi+0x68>)
+ 8000d2a:	220a      	movs	r2, #10
+ 8000d2c:	62da      	str	r2, [r3, #44]	; 0x2c
 	if (HAL_SPI_Init(&hspi4) == HAL_OK) {
- 8000d56:	4805      	ldr	r0, [pc, #20]	; (8000d6c <init_ads_spi+0x68>)
- 8000d58:	f001 f94c 	bl	8001ff4 <HAL_SPI_Init>
- 8000d5c:	4603      	mov	r3, r0
- 8000d5e:	2b00      	cmp	r3, #0
- 8000d60:	d101      	bne.n	8000d66 <init_ads_spi+0x62>
+ 8000d2e:	4805      	ldr	r0, [pc, #20]	; (8000d44 <init_ads_spi+0x68>)
+ 8000d30:	f001 f960 	bl	8001ff4 <HAL_SPI_Init>
+ 8000d34:	4603      	mov	r3, r0
+ 8000d36:	2b00      	cmp	r3, #0
+ 8000d38:	d101      	bne.n	8000d3e <init_ads_spi+0x62>
 		return true;
- 8000d62:	2301      	movs	r3, #1
- 8000d64:	e000      	b.n	8000d68 <init_ads_spi+0x64>
+ 8000d3a:	2301      	movs	r3, #1
+ 8000d3c:	e000      	b.n	8000d40 <init_ads_spi+0x64>
 	}
 	return false;
- 8000d66:	2300      	movs	r3, #0
+ 8000d3e:	2300      	movs	r3, #0
 }
- 8000d68:	4618      	mov	r0, r3
- 8000d6a:	bd80      	pop	{r7, pc}
- 8000d6c:	200000b0 	.word	0x200000b0
- 8000d70:	40013400 	.word	0x40013400
+ 8000d40:	4618      	mov	r0, r3
+ 8000d42:	bd80      	pop	{r7, pc}
+ 8000d44:	200000b0 	.word	0x200000b0
+ 8000d48:	40013400 	.word	0x40013400
 
-08000d74 <tx_rx_spi>:
+08000d4c <tx_rx_spi>:
  * alrededor de 600ns.
  *
  * @param configWord Palabra de configuración para captura del ADS1018
  * @return Valor adquirido según anterior palabra de configuración
  */
 uint16_t tx_rx_spi(uint16_t configWord) {
- 8000d74:	b580      	push	{r7, lr}
- 8000d76:	b086      	sub	sp, #24
- 8000d78:	af02      	add	r7, sp, #8
- 8000d7a:	4603      	mov	r3, r0
- 8000d7c:	80fb      	strh	r3, [r7, #6]
+ 8000d4c:	b580      	push	{r7, lr}
+ 8000d4e:	b086      	sub	sp, #24
+ 8000d50:	af02      	add	r7, sp, #8
+ 8000d52:	4603      	mov	r3, r0
+ 8000d54:	80fb      	strh	r3, [r7, #6]
 
 	uint16_t response;
 	uint8_t j;
 
 	HAL_SPI_TransmitReceive(&hspi4, (uint8_t*) &configWord,
- 8000d7e:	f107 020c 	add.w	r2, r7, #12
- 8000d82:	1db9      	adds	r1, r7, #6
- 8000d84:	f64f 73ff 	movw	r3, #65535	; 0xffff
- 8000d88:	9300      	str	r3, [sp, #0]
- 8000d8a:	2301      	movs	r3, #1
- 8000d8c:	4810      	ldr	r0, [pc, #64]	; (8000dd0 <tx_rx_spi+0x5c>)
- 8000d8e:	f001 f9ba 	bl	8002106 <HAL_SPI_TransmitReceive>
+ 8000d56:	f107 020c 	add.w	r2, r7, #12
+ 8000d5a:	1db9      	adds	r1, r7, #6
+ 8000d5c:	f64f 73ff 	movw	r3, #65535	; 0xffff
+ 8000d60:	9300      	str	r3, [sp, #0]
+ 8000d62:	2301      	movs	r3, #1
+ 8000d64:	4810      	ldr	r0, [pc, #64]	; (8000da8 <tx_rx_spi+0x5c>)
+ 8000d66:	f001 f9ce 	bl	8002106 <HAL_SPI_TransmitReceive>
 			(uint8_t*) &response, 1, MAX_TIMEOUT);
 
 	/* Hace que el módulo SPI genere un pulso de 600ns sobre la señal de habilitación */
 	__HAL_SPI_DISABLE(&hspi4);
- 8000d92:	4b0f      	ldr	r3, [pc, #60]	; (8000dd0 <tx_rx_spi+0x5c>)
- 8000d94:	681b      	ldr	r3, [r3, #0]
- 8000d96:	681a      	ldr	r2, [r3, #0]
- 8000d98:	4b0d      	ldr	r3, [pc, #52]	; (8000dd0 <tx_rx_spi+0x5c>)
- 8000d9a:	681b      	ldr	r3, [r3, #0]
- 8000d9c:	f022 0240 	bic.w	r2, r2, #64	; 0x40
- 8000da0:	601a      	str	r2, [r3, #0]
+ 8000d6a:	4b0f      	ldr	r3, [pc, #60]	; (8000da8 <tx_rx_spi+0x5c>)
+ 8000d6c:	681b      	ldr	r3, [r3, #0]
+ 8000d6e:	681a      	ldr	r2, [r3, #0]
+ 8000d70:	4b0d      	ldr	r3, [pc, #52]	; (8000da8 <tx_rx_spi+0x5c>)
+ 8000d72:	681b      	ldr	r3, [r3, #0]
+ 8000d74:	f022 0240 	bic.w	r2, r2, #64	; 0x40
+ 8000d78:	601a      	str	r2, [r3, #0]
 	for (j = 0; j < 20; j++)
- 8000da2:	2300      	movs	r3, #0
- 8000da4:	73fb      	strb	r3, [r7, #15]
- 8000da6:	e002      	b.n	8000dae <tx_rx_spi+0x3a>
- 8000da8:	7bfb      	ldrb	r3, [r7, #15]
- 8000daa:	3301      	adds	r3, #1
- 8000dac:	73fb      	strb	r3, [r7, #15]
- 8000dae:	7bfb      	ldrb	r3, [r7, #15]
- 8000db0:	2b13      	cmp	r3, #19
- 8000db2:	d9f9      	bls.n	8000da8 <tx_rx_spi+0x34>
+ 8000d7a:	2300      	movs	r3, #0
+ 8000d7c:	73fb      	strb	r3, [r7, #15]
+ 8000d7e:	e002      	b.n	8000d86 <tx_rx_spi+0x3a>
+ 8000d80:	7bfb      	ldrb	r3, [r7, #15]
+ 8000d82:	3301      	adds	r3, #1
+ 8000d84:	73fb      	strb	r3, [r7, #15]
+ 8000d86:	7bfb      	ldrb	r3, [r7, #15]
+ 8000d88:	2b13      	cmp	r3, #19
+ 8000d8a:	d9f9      	bls.n	8000d80 <tx_rx_spi+0x34>
 		;
 	__HAL_SPI_ENABLE(&hspi4);
- 8000db4:	4b06      	ldr	r3, [pc, #24]	; (8000dd0 <tx_rx_spi+0x5c>)
- 8000db6:	681b      	ldr	r3, [r3, #0]
- 8000db8:	681a      	ldr	r2, [r3, #0]
- 8000dba:	4b05      	ldr	r3, [pc, #20]	; (8000dd0 <tx_rx_spi+0x5c>)
- 8000dbc:	681b      	ldr	r3, [r3, #0]
- 8000dbe:	f042 0240 	orr.w	r2, r2, #64	; 0x40
- 8000dc2:	601a      	str	r2, [r3, #0]
+ 8000d8c:	4b06      	ldr	r3, [pc, #24]	; (8000da8 <tx_rx_spi+0x5c>)
+ 8000d8e:	681b      	ldr	r3, [r3, #0]
+ 8000d90:	681a      	ldr	r2, [r3, #0]
+ 8000d92:	4b05      	ldr	r3, [pc, #20]	; (8000da8 <tx_rx_spi+0x5c>)
+ 8000d94:	681b      	ldr	r3, [r3, #0]
+ 8000d96:	f042 0240 	orr.w	r2, r2, #64	; 0x40
+ 8000d9a:	601a      	str	r2, [r3, #0]
 
 	return response;
- 8000dc4:	89bb      	ldrh	r3, [r7, #12]
+ 8000d9c:	89bb      	ldrh	r3, [r7, #12]
 }
- 8000dc6:	4618      	mov	r0, r3
- 8000dc8:	3710      	adds	r7, #16
- 8000dca:	46bd      	mov	sp, r7
- 8000dcc:	bd80      	pop	{r7, pc}
- 8000dce:	bf00      	nop
- 8000dd0:	200000b0 	.word	0x200000b0
+ 8000d9e:	4618      	mov	r0, r3
+ 8000da0:	3710      	adds	r7, #16
+ 8000da2:	46bd      	mov	sp, r7
+ 8000da4:	bd80      	pop	{r7, pc}
+ 8000da6:	bf00      	nop
+ 8000da8:	200000b0 	.word	0x200000b0
 
-08000dd4 <read_ads_data>:
+08000dac <read_ads_data>:
  *
  * @param readBuffer Memoria reservada para lectura de datos
  * @param buffSize Cantidad de valores a leer
  * @return
  */
 uint8_t read_ads_data(uint16_t *readBuffer, uint8_t buffSize) {
- 8000dd4:	b580      	push	{r7, lr}
- 8000dd6:	b086      	sub	sp, #24
- 8000dd8:	af00      	add	r7, sp, #0
- 8000dda:	6078      	str	r0, [r7, #4]
- 8000ddc:	460b      	mov	r3, r1
- 8000dde:	70fb      	strb	r3, [r7, #3]
-
+ 8000dac:	b580      	push	{r7, lr}
+ 8000dae:	b086      	sub	sp, #24
+ 8000db0:	af00      	add	r7, sp, #0
+ 8000db2:	6078      	str	r0, [r7, #4]
+ 8000db4:	460b      	mov	r3, r1
+ 8000db6:	70fb      	strb	r3, [r7, #3]
+	 *  0: Adquisición del Canal 2, sin lectura
+	 *  1: Adquisición del Canal 1, lectura del Canal 2
+	 *  2: Adquisición del sensor de temperatura interno, lectura del Canal 1
+	 *  3: Lectura del sensor de temperatura interno
+	 */
 	uint16_t configADC[4] = {
- 8000de0:	4a25      	ldr	r2, [pc, #148]	; (8000e78 <read_ads_data+0xa4>)
- 8000de2:	f107 030c 	add.w	r3, r7, #12
- 8000de6:	e892 0003 	ldmia.w	r2, {r0, r1}
- 8000dea:	e883 0003 	stmia.w	r3, {r0, r1}
+ 8000db8:	4a25      	ldr	r2, [pc, #148]	; (8000e50 <read_ads_data+0xa4>)
+ 8000dba:	f107 030c 	add.w	r3, r7, #12
+ 8000dbe:	e892 0003 	ldmia.w	r2, {r0, r1}
+ 8000dc2:	e883 0003 	stmia.w	r3, {r0, r1}
 	ADS1018_CFG_SS | ADS1018_CFG_TINT | ADS1018_CFG_PGA | ADS1018_CFG_MODE
 			| ADS1018_CFG_DR | ADS1018_CFG_PU_EN | ADS1018_CFG_NOP
 			| ADS1018_CFG_RSV, 0x0001 };
 	uint8_t i;
 
 	if (readBuffer != NULL) {
- 8000dee:	687b      	ldr	r3, [r7, #4]
- 8000df0:	2b00      	cmp	r3, #0
- 8000df2:	d03b      	beq.n	8000e6c <read_ads_data+0x98>
+ 8000dc6:	687b      	ldr	r3, [r7, #4]
+ 8000dc8:	2b00      	cmp	r3, #0
+ 8000dca:	d03b      	beq.n	8000e44 <read_ads_data+0x98>
 		/** Envía la primera palabra de configuración. Se descarta el dato
 		 * recibido porque es de la medición anterior
 		 */
 		tx_rx_spi(configADC[0]);
- 8000df4:	89bb      	ldrh	r3, [r7, #12]
- 8000df6:	4618      	mov	r0, r3
- 8000df8:	f7ff ffbc 	bl	8000d74 <tx_rx_spi>
+ 8000dcc:	89bb      	ldrh	r3, [r7, #12]
+ 8000dce:	4618      	mov	r0, r3
+ 8000dd0:	f7ff ffbc 	bl	8000d4c <tx_rx_spi>
 
 		/**
 		 *  Envía sucesivas palabras de configuración y recupera datos útiles
 		 */
 		for (i = 0; i < 3; i++) {
- 8000dfc:	2300      	movs	r3, #0
- 8000dfe:	75fb      	strb	r3, [r7, #23]
- 8000e00:	e027      	b.n	8000e52 <read_ads_data+0x7e>
+ 8000dd4:	2300      	movs	r3, #0
+ 8000dd6:	75fb      	strb	r3, [r7, #23]
+ 8000dd8:	e027      	b.n	8000e2a <read_ads_data+0x7e>
 			// Espera que indique dato nuevo disponible
 			while (HAL_GPIO_ReadPin(GPIOF, GPIO_PIN_8) == 0)
- 8000e02:	bf00      	nop
- 8000e04:	f44f 7180 	mov.w	r1, #256	; 0x100
- 8000e08:	481c      	ldr	r0, [pc, #112]	; (8000e7c <read_ads_data+0xa8>)
- 8000e0a:	f000 fbdb 	bl	80015c4 <HAL_GPIO_ReadPin>
- 8000e0e:	4603      	mov	r3, r0
- 8000e10:	2b00      	cmp	r3, #0
- 8000e12:	d0f7      	beq.n	8000e04 <read_ads_data+0x30>
+ 8000dda:	bf00      	nop
+ 8000ddc:	f44f 7180 	mov.w	r1, #256	; 0x100
+ 8000de0:	481c      	ldr	r0, [pc, #112]	; (8000e54 <read_ads_data+0xa8>)
+ 8000de2:	f000 fbef 	bl	80015c4 <HAL_GPIO_ReadPin>
+ 8000de6:	4603      	mov	r3, r0
+ 8000de8:	2b00      	cmp	r3, #0
+ 8000dea:	d0f7      	beq.n	8000ddc <read_ads_data+0x30>
 				;
 			while (HAL_GPIO_ReadPin(GPIOF, GPIO_PIN_8) == 1)
- 8000e14:	bf00      	nop
- 8000e16:	f44f 7180 	mov.w	r1, #256	; 0x100
- 8000e1a:	4818      	ldr	r0, [pc, #96]	; (8000e7c <read_ads_data+0xa8>)
- 8000e1c:	f000 fbd2 	bl	80015c4 <HAL_GPIO_ReadPin>
- 8000e20:	4603      	mov	r3, r0
- 8000e22:	2b01      	cmp	r3, #1
- 8000e24:	d0f7      	beq.n	8000e16 <read_ads_data+0x42>
+ 8000dec:	bf00      	nop
+ 8000dee:	f44f 7180 	mov.w	r1, #256	; 0x100
+ 8000df2:	4818      	ldr	r0, [pc, #96]	; (8000e54 <read_ads_data+0xa8>)
+ 8000df4:	f000 fbe6 	bl	80015c4 <HAL_GPIO_ReadPin>
+ 8000df8:	4603      	mov	r3, r0
+ 8000dfa:	2b01      	cmp	r3, #1
+ 8000dfc:	d0f7      	beq.n	8000dee <read_ads_data+0x42>
 			/**
 			 * El ADS1018 es un ADC de 12 bits y devuelve valores adquiridos
 			 * en una palabra de 16 bits justificados a la izquierda: es
 			 *  necesario corregir esto antes de devolver los datos.
 			 */
 			readBuffer[i] = (tx_rx_spi(configADC[i + 1])) >> 4;
- 8000e26:	7dfb      	ldrb	r3, [r7, #23]
- 8000e28:	3301      	adds	r3, #1
- 8000e2a:	005b      	lsls	r3, r3, #1
- 8000e2c:	3318      	adds	r3, #24
- 8000e2e:	443b      	add	r3, r7
- 8000e30:	f833 3c0c 	ldrh.w	r3, [r3, #-12]
- 8000e34:	4618      	mov	r0, r3
- 8000e36:	f7ff ff9d 	bl	8000d74 <tx_rx_spi>
- 8000e3a:	4603      	mov	r3, r0
- 8000e3c:	4619      	mov	r1, r3
- 8000e3e:	7dfb      	ldrb	r3, [r7, #23]
- 8000e40:	005b      	lsls	r3, r3, #1
- 8000e42:	687a      	ldr	r2, [r7, #4]
- 8000e44:	4413      	add	r3, r2
- 8000e46:	090a      	lsrs	r2, r1, #4
- 8000e48:	b292      	uxth	r2, r2
- 8000e4a:	801a      	strh	r2, [r3, #0]
+ 8000dfe:	7dfb      	ldrb	r3, [r7, #23]
+ 8000e00:	3301      	adds	r3, #1
+ 8000e02:	005b      	lsls	r3, r3, #1
+ 8000e04:	3318      	adds	r3, #24
+ 8000e06:	443b      	add	r3, r7
+ 8000e08:	f833 3c0c 	ldrh.w	r3, [r3, #-12]
+ 8000e0c:	4618      	mov	r0, r3
+ 8000e0e:	f7ff ff9d 	bl	8000d4c <tx_rx_spi>
+ 8000e12:	4603      	mov	r3, r0
+ 8000e14:	4619      	mov	r1, r3
+ 8000e16:	7dfb      	ldrb	r3, [r7, #23]
+ 8000e18:	005b      	lsls	r3, r3, #1
+ 8000e1a:	687a      	ldr	r2, [r7, #4]
+ 8000e1c:	4413      	add	r3, r2
+ 8000e1e:	090a      	lsrs	r2, r1, #4
+ 8000e20:	b292      	uxth	r2, r2
+ 8000e22:	801a      	strh	r2, [r3, #0]
 		for (i = 0; i < 3; i++) {
- 8000e4c:	7dfb      	ldrb	r3, [r7, #23]
- 8000e4e:	3301      	adds	r3, #1
- 8000e50:	75fb      	strb	r3, [r7, #23]
- 8000e52:	7dfb      	ldrb	r3, [r7, #23]
- 8000e54:	2b02      	cmp	r3, #2
- 8000e56:	d9d4      	bls.n	8000e02 <read_ads_data+0x2e>
+ 8000e24:	7dfb      	ldrb	r3, [r7, #23]
+ 8000e26:	3301      	adds	r3, #1
+ 8000e28:	75fb      	strb	r3, [r7, #23]
+ 8000e2a:	7dfb      	ldrb	r3, [r7, #23]
+ 8000e2c:	2b02      	cmp	r3, #2
+ 8000e2e:	d9d4      	bls.n	8000dda <read_ads_data+0x2e>
 		}
 		/**
 		 * Al finalizar el ciclo de las 4 conversiones se deshabilita el módulo SPI
 		 */
 		__HAL_SPI_DISABLE(&hspi4);
- 8000e58:	4b09      	ldr	r3, [pc, #36]	; (8000e80 <read_ads_data+0xac>)
- 8000e5a:	681b      	ldr	r3, [r3, #0]
- 8000e5c:	681a      	ldr	r2, [r3, #0]
- 8000e5e:	4b08      	ldr	r3, [pc, #32]	; (8000e80 <read_ads_data+0xac>)
- 8000e60:	681b      	ldr	r3, [r3, #0]
- 8000e62:	f022 0240 	bic.w	r2, r2, #64	; 0x40
- 8000e66:	601a      	str	r2, [r3, #0]
+ 8000e30:	4b09      	ldr	r3, [pc, #36]	; (8000e58 <read_ads_data+0xac>)
+ 8000e32:	681b      	ldr	r3, [r3, #0]
+ 8000e34:	681a      	ldr	r2, [r3, #0]
+ 8000e36:	4b08      	ldr	r3, [pc, #32]	; (8000e58 <read_ads_data+0xac>)
+ 8000e38:	681b      	ldr	r3, [r3, #0]
+ 8000e3a:	f022 0240 	bic.w	r2, r2, #64	; 0x40
+ 8000e3e:	601a      	str	r2, [r3, #0]
 
 		/**
 		 * Devuelve siempre que se leyeron 3 datos
 		 */
 		return ADS_FULLDATA;
- 8000e68:	2303      	movs	r3, #3
- 8000e6a:	e000      	b.n	8000e6e <read_ads_data+0x9a>
+ 8000e40:	2303      	movs	r3, #3
+ 8000e42:	e000      	b.n	8000e46 <read_ads_data+0x9a>
 	}
 	return ADS_NODATA;
- 8000e6c:	2300      	movs	r3, #0
+ 8000e44:	2300      	movs	r3, #0
 }
- 8000e6e:	4618      	mov	r0, r3
- 8000e70:	3718      	adds	r7, #24
- 8000e72:	46bd      	mov	sp, r7
- 8000e74:	bd80      	pop	{r7, pc}
- 8000e76:	bf00      	nop
- 8000e78:	080036e4 	.word	0x080036e4
- 8000e7c:	40021400 	.word	0x40021400
- 8000e80:	200000b0 	.word	0x200000b0
+ 8000e46:	4618      	mov	r0, r3
+ 8000e48:	3718      	adds	r7, #24
+ 8000e4a:	46bd      	mov	sp, r7
+ 8000e4c:	bd80      	pop	{r7, pc}
+ 8000e4e:	bf00      	nop
+ 8000e50:	080036e4 	.word	0x080036e4
+ 8000e54:	40021400 	.word	0x40021400
+ 8000e58:	200000b0 	.word	0x200000b0
+
+08000e5c <init_comm>:
+ * @brief Inicializa una interfaz de comunicación de manera abstracta
+ *
+ * @return Verdadero o falso, depende del resultado de la inicialización del
+ * hardware específico
+ */
+bool init_comm(void) {
+ 8000e5c:	b580      	push	{r7, lr}
+ 8000e5e:	af00      	add	r7, sp, #0
+	return init_uart();
+ 8000e60:	f000 f810 	bl	8000e84 <init_uart>
+ 8000e64:	4603      	mov	r3, r0
+}
+ 8000e66:	4618      	mov	r0, r3
+ 8000e68:	bd80      	pop	{r7, pc}
+
+08000e6a <tx_data>:
+ *
+ * @param dataBuffer Memoria reservada para lectura de datos
+ * @return Verdadero o falso, depende del resultado de la operación del
+ * hardware
+ */
+bool tx_data(uint8_t *dataBuffer) {
+ 8000e6a:	b580      	push	{r7, lr}
+ 8000e6c:	b082      	sub	sp, #8
+ 8000e6e:	af00      	add	r7, sp, #0
+ 8000e70:	6078      	str	r0, [r7, #4]
+	return tx_uart(dataBuffer);
+ 8000e72:	6878      	ldr	r0, [r7, #4]
+ 8000e74:	f000 f836 	bl	8000ee4 <tx_uart>
+ 8000e78:	4603      	mov	r3, r0
+}
+ 8000e7a:	4618      	mov	r0, r3
+ 8000e7c:	3708      	adds	r7, #8
+ 8000e7e:	46bd      	mov	sp, r7
+ 8000e80:	bd80      	pop	{r7, pc}
+	...
 
 08000e84 <init_uart>:
  * microcontrolador.

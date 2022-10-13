@@ -1,9 +1,8 @@
 # TPFin-PComSE-Baudino
 
-## Trabajo Final de las materias **Protocolos de Comunicación en Sistemas Embebidos** y **Programación de Microprocesadores**, cursada el cuarto bimestre de 2022
+## Trabajo Práctico Final de las materia **Protocolos de Comunicación en Sistemas Embebidos**, cursada el cuarto bimestre de 2022
 
 Alumno: **BAUDINO, Martín Sebastián**
-Plataforma embebida: **NUCLEO-F429ZI**
 Aplicación: **Sensor de temperatura de bajo consumo**
 
 La aplicación realizará mediciones de temperatura en dos termocuplas, comunicándose por SPI con el ADC de bajo consumo ADS1018 y luego retransmitirá estos valores a través de una interfaz UART. El microcontrolador se mantendrá en modo Sleep y ejecutará el ciclo de adquisición y transmisión de datos cada vez que se presione el pulsador.

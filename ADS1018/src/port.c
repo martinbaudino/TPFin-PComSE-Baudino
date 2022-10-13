@@ -6,7 +6,7 @@
  */
 
 /* Includes ------------------------------------------------------------------*/
-#include "ADS1018_bsp.h"
+#include "ADS1018.h"
 
 /* Private defines -----------------------------------------------------------*/
 /**
@@ -14,36 +14,38 @@
  * @brief Definiciones de bits de configuración del ADS1018 según hoja de datos
  *
  */
-#define	ADS1018_CFG_SS		(0x8000)	// Single-shot conversion Start
+/** Single-shot conversion Start */
+#define	ADS1018_CFG_SS		(0x8000)
 
-#define ADS1018_CFG_CH1     (0x0000)	// Input multiplexer configuration:
-// 000 = AINP is AIN0 and AINN is AIN1
+/** Input multiplexer configuration: 000 => AINP is AIN0 and AINN is AIN1 */
+#define ADS1018_CFG_CH1		(0x0000)
 
-#define ADS1018_CFG_CH2     (0x3000)	// Input multiplexer configuration:
-// 011 = AINP is AIN2 and AINN is AIN3
+/** Input multiplexer configuration: 011 => AINP is AIN2 and AINN is AIN3 */
+#define ADS1018_CFG_CH2		(0x3000)
 
-#define ADS1018_CFG_PGA     (0x0E00)	// Programmable Gain Amplifier config
-// 111 = FSR is ±0.256 V
+/** Programmable Gain Amplifier config: 111 => FSR is ±0.256 V */
+#define ADS1018_CFG_PGA     (0x0E00)
 
-#define ADS1018_CFG_MODE    (0x0100)	// Device operating mode:
-// 1 = Power-down and single-shot mode
+/** Device operating mode: 1 => Power-down and single-shot mode */
+#define ADS1018_CFG_MODE    (0x0100)
 
-#define ADS1018_CFG_DR      (0x00A0)	// Data rate
-// 110 = 3300 SPS
+/** Data rate: 110 => 3300 SPS */
+#define ADS1018_CFG_DR      (0x00A0)
 
-#define ADS1018_CFG_TINT    (0x0010)	// Temperature sensor mode
-// 1 = Temperature sensor mode
+/** Temperature sensor mode: 1 => Temperature sensor mode */
+#define ADS1018_CFG_TINT    (0x0010)
 
-#define ADS1018_CFG_PU_EN   (0x0008)	// Pullup resistor enable on DOUT/DRDY
-// 1 = Pullup resistor enabled
+/** Pullup resistor enable on DOUT/DRDY: 1 => Pullup resistor enabled */
+#define ADS1018_CFG_PU_EN   (0x0008)
 
-#define ADS1018_CFG_NOP     (0x0002)	// NO OP: control if data are written
-// 01 = Valid data; update Config register
+/** NO OP - control if data are written: 01 => Valid data; update Config register */
+#define ADS1018_CFG_NOP     (0x0002)
 
-#define ADS1018_CFG_RSV     (0x0001)	// Reserved
-// Writing 0 or 1 has no effect
+/** Reserved: Writing 0 or 1 has no effect */
+#define ADS1018_CFG_RSV     (0x0001)
 
-// Retardo máximo para Tx/Rx por SPI
+
+/** Retardo máximo para Tx/Rx por SPI */
 #define MAX_TIMEOUT 0xFFFF
 
 /* Private variables ---------------------------------------------------------*/
@@ -111,7 +113,7 @@ uint16_t tx_rx_spi(uint16_t configWord) {
 	HAL_SPI_TransmitReceive(&hspi4, (uint8_t*) &configWord,
 			(uint8_t*) &response, 1, MAX_TIMEOUT);
 
-	/* Hace que el módulo SPI genere un pulso de 600ns sobre la señal de habilitación */
+	/** Hace que el módulo SPI genere un pulso de 600ns sobre la señal de habilitación */
 	__HAL_SPI_DISABLE(&hspi4);
 	for (j = 0; j < 20; j++)
 		;
@@ -136,7 +138,13 @@ uint16_t tx_rx_spi(uint16_t configWord) {
  * @return
  */
 uint8_t read_ads_data(uint16_t *readBuffer, uint8_t buffSize) {
-
+	/**
+	 * Palabras de configuración para cada lectura del ADS1018
+	 *  0: Adquisición del Canal 2, sin lectura
+	 *  1: Adquisición del Canal 1, lectura del Canal 2
+	 *  2: Adquisición del sensor de temperatura interno, lectura del Canal 1
+	 *  3: Lectura del sensor de temperatura interno
+	 */
 	uint16_t configADC[4] = {
 	ADS1018_CFG_SS | ADS1018_CFG_CH2 | ADS1018_CFG_PGA | ADS1018_CFG_MODE
 			| ADS1018_CFG_DR | ADS1018_CFG_PU_EN | ADS1018_CFG_NOP
@@ -159,7 +167,7 @@ uint8_t read_ads_data(uint16_t *readBuffer, uint8_t buffSize) {
 		 *  Envía sucesivas palabras de configuración y recupera datos útiles
 		 */
 		for (i = 0; i < 3; i++) {
-			// Espera que indique dato nuevo disponible
+			/** Espera que indique dato nuevo disponible */
 			while (HAL_GPIO_ReadPin(GPIOF, GPIO_PIN_8) == 0)
 				;
 			while (HAL_GPIO_ReadPin(GPIOF, GPIO_PIN_8) == 1)

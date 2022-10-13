@@ -1,0 +1,179 @@
+\hypertarget{port_8c}{}\doxysection{src/port.c File Reference}
+\label{port_8c}\index{src/port.c@{src/port.c}}
+{\ttfamily \#include \char`\"{}ADS1018.\+h\char`\"{}}\newline
+\doxysubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \mbox{\hyperlink{port_8c_a38c0ef58e0c764b3578846d1dadda106}{ADS1018\+\_\+\+CFG\+\_\+\+SS}}~(0x8000)
+\item 
+\#define \mbox{\hyperlink{port_8c_abdbd3c00cca5fbf559d773b53d5df629}{ADS1018\+\_\+\+CFG\+\_\+\+CH1}}~(0x0000)
+\item 
+\#define \mbox{\hyperlink{port_8c_a6181ec340081d90fe9fea14e260cc488}{ADS1018\+\_\+\+CFG\+\_\+\+CH2}}~(0x3000)
+\item 
+\#define \mbox{\hyperlink{port_8c_a19344a1fb09123d7e066329e318feb78}{ADS1018\+\_\+\+CFG\+\_\+\+PGA}}~(0x0\+E00)
+\item 
+\#define \mbox{\hyperlink{port_8c_adbdc79191d3457b0502b4bdad19923c2}{ADS1018\+\_\+\+CFG\+\_\+\+MODE}}~(0x0100)
+\item 
+\#define \mbox{\hyperlink{port_8c_a1a8a738d739b1f65d18870bb9948cacd}{ADS1018\+\_\+\+CFG\+\_\+\+DR}}~(0x00\+A0)
+\item 
+\#define \mbox{\hyperlink{port_8c_a0fe2ec0a57f311bed07cd2659d033aa4}{ADS1018\+\_\+\+CFG\+\_\+\+TINT}}~(0x0010)
+\item 
+\#define \mbox{\hyperlink{port_8c_adfac05b5e7bd88c37802563d309511c5}{ADS1018\+\_\+\+CFG\+\_\+\+PU\+\_\+\+EN}}~(0x0008)
+\item 
+\#define \mbox{\hyperlink{port_8c_a958e94ac8ad4326d8079542bb1ca1c7c}{ADS1018\+\_\+\+CFG\+\_\+\+NOP}}~(0x0002)
+\item 
+\#define \mbox{\hyperlink{port_8c_a4bde934c3634ebfbcbb6f48ad79ecdd1}{ADS1018\+\_\+\+CFG\+\_\+\+RSV}}~(0x0001)
+\item 
+\#define \mbox{\hyperlink{port_8c_a85fda3522e69a1bf85f7dcd97b6023a1}{MAX\+\_\+\+TIMEOUT}}~0x\+FFFF
+\end{DoxyCompactItemize}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+bool \mbox{\hyperlink{port_8c_a38a074e9bd8eda193cc0b12043d2234c}{init\+\_\+ads\+\_\+spi}} (void)
+\begin{DoxyCompactList}\small\item\em Inicialización del módulo de hardware SPI4, conectado a ADS1018. \end{DoxyCompactList}\item 
+uint16\+\_\+t \mbox{\hyperlink{port_8c_aa74630614e18c3c845aa309464b539ab}{tx\+\_\+rx\+\_\+spi}} (uint16\+\_\+t config\+Word)
+\begin{DoxyCompactList}\small\item\em Transmisión y recepción de datos con el ADS1018 por SPI4. \end{DoxyCompactList}\item 
+uint8\+\_\+t \mbox{\hyperlink{port_8c_aa7aad8f6f6cd4186ca5db864f4786a1c}{read\+\_\+ads\+\_\+data}} (uint16\+\_\+t $\ast$read\+Buffer, uint8\+\_\+t buff\+Size)
+\begin{DoxyCompactList}\small\item\em Convierte los canales con manejo de señales de bajo nivel. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Macro Definition Documentation}
+\mbox{\Hypertarget{port_8c_abdbd3c00cca5fbf559d773b53d5df629}\label{port_8c_abdbd3c00cca5fbf559d773b53d5df629}} 
+\index{port.c@{port.c}!ADS1018\_CFG\_CH1@{ADS1018\_CFG\_CH1}}
+\index{ADS1018\_CFG\_CH1@{ADS1018\_CFG\_CH1}!port.c@{port.c}}
+\doxysubsubsection{\texorpdfstring{ADS1018\_CFG\_CH1}{ADS1018\_CFG\_CH1}}
+{\footnotesize\ttfamily \#define ADS1018\+\_\+\+CFG\+\_\+\+CH1~(0x0000)}
+
+Input multiplexer configuration\+: 000 =\texorpdfstring{$>$}{>} AINP is AIN0 and AINN is AIN1 \mbox{\Hypertarget{port_8c_a6181ec340081d90fe9fea14e260cc488}\label{port_8c_a6181ec340081d90fe9fea14e260cc488}} 
+\index{port.c@{port.c}!ADS1018\_CFG\_CH2@{ADS1018\_CFG\_CH2}}
+\index{ADS1018\_CFG\_CH2@{ADS1018\_CFG\_CH2}!port.c@{port.c}}
+\doxysubsubsection{\texorpdfstring{ADS1018\_CFG\_CH2}{ADS1018\_CFG\_CH2}}
+{\footnotesize\ttfamily \#define ADS1018\+\_\+\+CFG\+\_\+\+CH2~(0x3000)}
+
+Input multiplexer configuration\+: 011 =\texorpdfstring{$>$}{>} AINP is AIN2 and AINN is AIN3 \mbox{\Hypertarget{port_8c_a1a8a738d739b1f65d18870bb9948cacd}\label{port_8c_a1a8a738d739b1f65d18870bb9948cacd}} 
+\index{port.c@{port.c}!ADS1018\_CFG\_DR@{ADS1018\_CFG\_DR}}
+\index{ADS1018\_CFG\_DR@{ADS1018\_CFG\_DR}!port.c@{port.c}}
+\doxysubsubsection{\texorpdfstring{ADS1018\_CFG\_DR}{ADS1018\_CFG\_DR}}
+{\footnotesize\ttfamily \#define ADS1018\+\_\+\+CFG\+\_\+\+DR~(0x00\+A0)}
+
+Data rate\+: 110 =\texorpdfstring{$>$}{>} 3300 SPS \mbox{\Hypertarget{port_8c_adbdc79191d3457b0502b4bdad19923c2}\label{port_8c_adbdc79191d3457b0502b4bdad19923c2}} 
+\index{port.c@{port.c}!ADS1018\_CFG\_MODE@{ADS1018\_CFG\_MODE}}
+\index{ADS1018\_CFG\_MODE@{ADS1018\_CFG\_MODE}!port.c@{port.c}}
+\doxysubsubsection{\texorpdfstring{ADS1018\_CFG\_MODE}{ADS1018\_CFG\_MODE}}
+{\footnotesize\ttfamily \#define ADS1018\+\_\+\+CFG\+\_\+\+MODE~(0x0100)}
+
+Device operating mode\+: 1 =\texorpdfstring{$>$}{>} Power-\/down and single-\/shot mode \mbox{\Hypertarget{port_8c_a958e94ac8ad4326d8079542bb1ca1c7c}\label{port_8c_a958e94ac8ad4326d8079542bb1ca1c7c}} 
+\index{port.c@{port.c}!ADS1018\_CFG\_NOP@{ADS1018\_CFG\_NOP}}
+\index{ADS1018\_CFG\_NOP@{ADS1018\_CFG\_NOP}!port.c@{port.c}}
+\doxysubsubsection{\texorpdfstring{ADS1018\_CFG\_NOP}{ADS1018\_CFG\_NOP}}
+{\footnotesize\ttfamily \#define ADS1018\+\_\+\+CFG\+\_\+\+NOP~(0x0002)}
+
+NO OP -\/ control if data are written\+: 01 =\texorpdfstring{$>$}{>} Valid data; update Config register \mbox{\Hypertarget{port_8c_a19344a1fb09123d7e066329e318feb78}\label{port_8c_a19344a1fb09123d7e066329e318feb78}} 
+\index{port.c@{port.c}!ADS1018\_CFG\_PGA@{ADS1018\_CFG\_PGA}}
+\index{ADS1018\_CFG\_PGA@{ADS1018\_CFG\_PGA}!port.c@{port.c}}
+\doxysubsubsection{\texorpdfstring{ADS1018\_CFG\_PGA}{ADS1018\_CFG\_PGA}}
+{\footnotesize\ttfamily \#define ADS1018\+\_\+\+CFG\+\_\+\+PGA~(0x0\+E00)}
+
+Programmable Gain Amplifier config\+: 111 =\texorpdfstring{$>$}{>} FSR is ±0.256 V \mbox{\Hypertarget{port_8c_adfac05b5e7bd88c37802563d309511c5}\label{port_8c_adfac05b5e7bd88c37802563d309511c5}} 
+\index{port.c@{port.c}!ADS1018\_CFG\_PU\_EN@{ADS1018\_CFG\_PU\_EN}}
+\index{ADS1018\_CFG\_PU\_EN@{ADS1018\_CFG\_PU\_EN}!port.c@{port.c}}
+\doxysubsubsection{\texorpdfstring{ADS1018\_CFG\_PU\_EN}{ADS1018\_CFG\_PU\_EN}}
+{\footnotesize\ttfamily \#define ADS1018\+\_\+\+CFG\+\_\+\+PU\+\_\+\+EN~(0x0008)}
+
+Pullup resistor enable on DOUT/\+DRDY\+: 1 =\texorpdfstring{$>$}{>} Pullup resistor enabled \mbox{\Hypertarget{port_8c_a4bde934c3634ebfbcbb6f48ad79ecdd1}\label{port_8c_a4bde934c3634ebfbcbb6f48ad79ecdd1}} 
+\index{port.c@{port.c}!ADS1018\_CFG\_RSV@{ADS1018\_CFG\_RSV}}
+\index{ADS1018\_CFG\_RSV@{ADS1018\_CFG\_RSV}!port.c@{port.c}}
+\doxysubsubsection{\texorpdfstring{ADS1018\_CFG\_RSV}{ADS1018\_CFG\_RSV}}
+{\footnotesize\ttfamily \#define ADS1018\+\_\+\+CFG\+\_\+\+RSV~(0x0001)}
+
+Reserved\+: Writing 0 or 1 has no effect \mbox{\Hypertarget{port_8c_a38c0ef58e0c764b3578846d1dadda106}\label{port_8c_a38c0ef58e0c764b3578846d1dadda106}} 
+\index{port.c@{port.c}!ADS1018\_CFG\_SS@{ADS1018\_CFG\_SS}}
+\index{ADS1018\_CFG\_SS@{ADS1018\_CFG\_SS}!port.c@{port.c}}
+\doxysubsubsection{\texorpdfstring{ADS1018\_CFG\_SS}{ADS1018\_CFG\_SS}}
+{\footnotesize\ttfamily \#define ADS1018\+\_\+\+CFG\+\_\+\+SS~(0x8000)}
+
+Single-\/shot conversion Start \mbox{\Hypertarget{port_8c_a0fe2ec0a57f311bed07cd2659d033aa4}\label{port_8c_a0fe2ec0a57f311bed07cd2659d033aa4}} 
+\index{port.c@{port.c}!ADS1018\_CFG\_TINT@{ADS1018\_CFG\_TINT}}
+\index{ADS1018\_CFG\_TINT@{ADS1018\_CFG\_TINT}!port.c@{port.c}}
+\doxysubsubsection{\texorpdfstring{ADS1018\_CFG\_TINT}{ADS1018\_CFG\_TINT}}
+{\footnotesize\ttfamily \#define ADS1018\+\_\+\+CFG\+\_\+\+TINT~(0x0010)}
+
+Temperature sensor mode\+: 1 =\texorpdfstring{$>$}{>} Temperature sensor mode \mbox{\Hypertarget{port_8c_a85fda3522e69a1bf85f7dcd97b6023a1}\label{port_8c_a85fda3522e69a1bf85f7dcd97b6023a1}} 
+\index{port.c@{port.c}!MAX\_TIMEOUT@{MAX\_TIMEOUT}}
+\index{MAX\_TIMEOUT@{MAX\_TIMEOUT}!port.c@{port.c}}
+\doxysubsubsection{\texorpdfstring{MAX\_TIMEOUT}{MAX\_TIMEOUT}}
+{\footnotesize\ttfamily \#define MAX\+\_\+\+TIMEOUT~0x\+FFFF}
+
+Retardo máximo para Tx/\+Rx por SPI 
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{port_8c_a38a074e9bd8eda193cc0b12043d2234c}\label{port_8c_a38a074e9bd8eda193cc0b12043d2234c}} 
+\index{port.c@{port.c}!init\_ads\_spi@{init\_ads\_spi}}
+\index{init\_ads\_spi@{init\_ads\_spi}!port.c@{port.c}}
+\doxysubsubsection{\texorpdfstring{init\_ads\_spi()}{init\_ads\_spi()}}
+{\footnotesize\ttfamily bool init\+\_\+ads\+\_\+spi (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+
+
+Inicialización del módulo de hardware SPI4, conectado a ADS1018. 
+
+Según la hoja de datos el ADS1018 trabaja con SPI en Modo 1, con el reloj en bajo cuando está inactivo (CPOL=0), muestrea la señal de entrada en flanco negativo y activa la de salida en el flanco positivo del reloj (CPHA=1).
+
+\begin{DoxyReturn}{Returns}
+Verdadero o falso, depende del resultado de la inicialización del periférico SPI4 
+\end{DoxyReturn}
+\mbox{\Hypertarget{port_8c_aa7aad8f6f6cd4186ca5db864f4786a1c}\label{port_8c_aa7aad8f6f6cd4186ca5db864f4786a1c}} 
+\index{port.c@{port.c}!read\_ads\_data@{read\_ads\_data}}
+\index{read\_ads\_data@{read\_ads\_data}!port.c@{port.c}}
+\doxysubsubsection{\texorpdfstring{read\_ads\_data()}{read\_ads\_data()}}
+{\footnotesize\ttfamily uint8\+\_\+t read\+\_\+ads\+\_\+data (\begin{DoxyParamCaption}\item[{uint16\+\_\+t $\ast$}]{read\+Buffer,  }\item[{uint8\+\_\+t}]{buff\+Size }\end{DoxyParamCaption})}
+
+
+
+Convierte los canales con manejo de señales de bajo nivel. 
+
+Adición ex post\+: Para leer las mediciones del ADS1018 se debe enviar una palabra de configuración que dispara la conversión analógica a digital. Minentras eso sucede, se recibe el valor de la conversión anterior. Por ello en esta configuración de disparo único, se envíean 4 palabras de configuración, se descarta el primer dato, y la cuarta palabra de configuración es un valor bobo solo para leer el resultado de la conversión.
+
+
+\begin{DoxyParams}{Parameters}
+{\em read\+Buffer} & Memoria reservada para lectura de datos \\
+\hline
+{\em buff\+Size} & Cantidad de valores a leer \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+
+\end{DoxyReturn}
+Palabras de configuración para cada lectura del ADS1018 0\+: Adquisición del Canal 2, sin lectura 1\+: Adquisición del Canal 1, lectura del Canal 2 2\+: Adquisición del sensor de temperatura interno, lectura del Canal 1 3\+: Lectura del sensor de temperatura interno
+
+Envía la primera palabra de configuración. Se descarta el dato recibido porque es de la medición anterior
+
+Envía sucesivas palabras de configuración y recupera datos útiles
+
+Espera que indique dato nuevo disponible
+
+El ADS1018 es un ADC de 12 bits y devuelve valores adquiridos en una palabra de 16 bits justificados a la izquierda\+: es necesario corregir esto antes de devolver los datos.
+
+Al finalizar el ciclo de las 4 conversiones se deshabilita el módulo SPI
+
+Devuelve siempre que se leyeron 3 datos\mbox{\Hypertarget{port_8c_aa74630614e18c3c845aa309464b539ab}\label{port_8c_aa74630614e18c3c845aa309464b539ab}} 
+\index{port.c@{port.c}!tx\_rx\_spi@{tx\_rx\_spi}}
+\index{tx\_rx\_spi@{tx\_rx\_spi}!port.c@{port.c}}
+\doxysubsubsection{\texorpdfstring{tx\_rx\_spi()}{tx\_rx\_spi()}}
+{\footnotesize\ttfamily uint16\+\_\+t tx\+\_\+rx\+\_\+spi (\begin{DoxyParamCaption}\item[{uint16\+\_\+t}]{config\+Word }\end{DoxyParamCaption})}
+
+
+
+Transmisión y recepción de datos con el ADS1018 por SPI4. 
+
+IMPORTANTE\+: El ADS1018 opera sobre la línea MISO no solo para transmitir sus lecturas, sino también para indicar que terminó de realizar una conversión. Esto lo hace poniendo en alto la línea MISO cuando empieza a convertir y luego en bajo cuando termina, en ambos casos con ausencia de clock cuando se trata del modo de disparo único. Como se requiere realizar cuatro mediciones consecutivas, se debe generar un ciclo BAJO-\/\+ALTO-\/\+BAJO entre las mediciones de un tiempo suficientement corto como para que no se generen pulsos de clock. Esto se hace con un retardo bloqueante de alrededor de 600ns.
+
+
+\begin{DoxyParams}{Parameters}
+{\em config\+Word} & Palabra de configuración para captura del ADS1018 \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Valor adquirido según anterior palabra de configuración 
+\end{DoxyReturn}
+Hace que el módulo SPI genere un pulso de 600ns sobre la señal de habilitación

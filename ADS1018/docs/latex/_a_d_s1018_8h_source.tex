@@ -1,0 +1,45 @@
+\hypertarget{_a_d_s1018_8h_source}{}\doxysection{ADS1018.\+h}
+\label{_a_d_s1018_8h_source}\index{inc/ADS1018.h@{inc/ADS1018.h}}
+\mbox{\hyperlink{_a_d_s1018_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 \textcolor{comment}{/*}}
+\DoxyCodeLine{2 \textcolor{comment}{ * ADS1018.h}}
+\DoxyCodeLine{3 \textcolor{comment}{ *}}
+\DoxyCodeLine{4 \textcolor{comment}{ *  Created on: Oct 9, 2022}}
+\DoxyCodeLine{5 \textcolor{comment}{ *      Author: Martín Sebastián Baudino}}
+\DoxyCodeLine{6 \textcolor{comment}{ */}}
+\DoxyCodeLine{7 \textcolor{comment}{/* Define to prevent recursive inclusion -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/*/}}
+\DoxyCodeLine{8 \textcolor{preprocessor}{\#ifndef API\_INC\_ADS1018\_H\_}}
+\DoxyCodeLine{9 \textcolor{preprocessor}{\#define API\_INC\_ADS1018\_H\_}}
+\DoxyCodeLine{10 }
+\DoxyCodeLine{11 \textcolor{comment}{/* Includes -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/*/}}
+\DoxyCodeLine{12 \textcolor{preprocessor}{\#include <stdbool.h>}}
+\DoxyCodeLine{13 \textcolor{preprocessor}{\#include <stdint.h>}}
+\DoxyCodeLine{14 \textcolor{preprocessor}{\#include "{}stm32f4xx\_hal.h"{}}}
+\DoxyCodeLine{15 }
+\DoxyCodeLine{16 }
+\DoxyCodeLine{17 \textcolor{comment}{/* Exported functions prototypes -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/*/}}
+\DoxyCodeLine{18 \textcolor{keywordtype}{bool} \mbox{\hyperlink{_a_d_s1018_8h_a568d84f20f044710cfb5a82f9b4a513c}{init\_ads}}(\textcolor{keywordtype}{void});}
+\DoxyCodeLine{19 uint8\_t \mbox{\hyperlink{_a_d_s1018_8h_a0f40d2e48fd47ed45b936fff1bf3d7c6}{read\_ads}}(uint16\_t *dataBuffer, uint8\_t buffSize);}
+\DoxyCodeLine{20 }
+\DoxyCodeLine{21 \textcolor{comment}{/* Private function prototypes -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/*/}}
+\DoxyCodeLine{22 \textcolor{keywordtype}{bool} \mbox{\hyperlink{_a_d_s1018_8h_a38a074e9bd8eda193cc0b12043d2234c}{init\_ads\_spi}}(\textcolor{keywordtype}{void});}
+\DoxyCodeLine{23 uint16\_t \mbox{\hyperlink{_a_d_s1018_8h_aa74630614e18c3c845aa309464b539ab}{tx\_rx\_spi}}(uint16\_t configWord);}
+\DoxyCodeLine{24 uint8\_t \mbox{\hyperlink{_a_d_s1018_8h_aa7aad8f6f6cd4186ca5db864f4786a1c}{read\_ads\_data}}(uint16\_t *readBuffer, uint8\_t buffSize);}
+\DoxyCodeLine{25 }
+\DoxyCodeLine{26 \textcolor{comment}{/* Exported constants -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/*/}}
+\DoxyCodeLine{28 \textcolor{preprocessor}{\#define ADS\_FULLDATA 3U}}
+\DoxyCodeLine{29 }
+\DoxyCodeLine{31 \textcolor{preprocessor}{\#define ADS\_NODATA   0U}}
+\DoxyCodeLine{32 }
+\DoxyCodeLine{33 }
+\DoxyCodeLine{34 \textcolor{preprocessor}{\#endif }\textcolor{comment}{/* API\_INC\_ADS1018\_H\_ */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{35 }
+\DoxyCodeLine{36 }
+\DoxyCodeLine{37 }
+\DoxyCodeLine{38 }
+\DoxyCodeLine{39 }
+\DoxyCodeLine{40 }
+\DoxyCodeLine{41 }
+
+\end{DoxyCode}

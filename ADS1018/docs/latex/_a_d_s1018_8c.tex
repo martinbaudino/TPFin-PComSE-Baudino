@@ -1,0 +1,46 @@
+\hypertarget{_a_d_s1018_8c}{}\doxysection{src/\+ADS1018.c File Reference}
+\label{_a_d_s1018_8c}\index{src/ADS1018.c@{src/ADS1018.c}}
+{\ttfamily \#include \char`\"{}ADS1018.\+h\char`\"{}}\newline
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+bool \mbox{\hyperlink{_a_d_s1018_8c_a568d84f20f044710cfb5a82f9b4a513c}{init\+\_\+ads}} (void)
+\begin{DoxyCompactList}\small\item\em Inicializa el ADS1018 de manera abstracta. \end{DoxyCompactList}\item 
+uint8\+\_\+t \mbox{\hyperlink{_a_d_s1018_8c_a0f40d2e48fd47ed45b936fff1bf3d7c6}{read\+\_\+ads}} (uint16\+\_\+t $\ast$data\+Buffer, uint8\+\_\+t buff\+Size)
+\begin{DoxyCompactList}\small\item\em Lee el ADS1018 de manera abstracta. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{_a_d_s1018_8c_a568d84f20f044710cfb5a82f9b4a513c}\label{_a_d_s1018_8c_a568d84f20f044710cfb5a82f9b4a513c}} 
+\index{ADS1018.c@{ADS1018.c}!init\_ads@{init\_ads}}
+\index{init\_ads@{init\_ads}!ADS1018.c@{ADS1018.c}}
+\doxysubsubsection{\texorpdfstring{init\_ads()}{init\_ads()}}
+{\footnotesize\ttfamily bool init\+\_\+ads (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+
+
+Inicializa el ADS1018 de manera abstracta. 
+
+\begin{DoxyReturn}{Returns}
+Verdadero o falso, depende del resultado de la inicialización del hardware específico 
+\end{DoxyReturn}
+\mbox{\Hypertarget{_a_d_s1018_8c_a0f40d2e48fd47ed45b936fff1bf3d7c6}\label{_a_d_s1018_8c_a0f40d2e48fd47ed45b936fff1bf3d7c6}} 
+\index{ADS1018.c@{ADS1018.c}!read\_ads@{read\_ads}}
+\index{read\_ads@{read\_ads}!ADS1018.c@{ADS1018.c}}
+\doxysubsubsection{\texorpdfstring{read\_ads()}{read\_ads()}}
+{\footnotesize\ttfamily uint8\+\_\+t read\+\_\+ads (\begin{DoxyParamCaption}\item[{uint16\+\_\+t $\ast$}]{data\+Buffer,  }\item[{uint8\+\_\+t}]{buff\+Size }\end{DoxyParamCaption})}
+
+
+
+Lee el ADS1018 de manera abstracta. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em data\+Buffer} & Memoria reservada para lectura de datos \\
+\hline
+{\em buff\+Size} & Cantidad de valores a leer \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Verdadero o falso, depende del resultado de la lectura del hardware 
+\end{DoxyReturn}

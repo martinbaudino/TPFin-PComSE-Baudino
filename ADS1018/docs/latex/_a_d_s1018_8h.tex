@@ -1,0 +1,146 @@
+\hypertarget{_a_d_s1018_8h}{}\doxysection{inc/\+ADS1018.h File Reference}
+\label{_a_d_s1018_8h}\index{inc/ADS1018.h@{inc/ADS1018.h}}
+{\ttfamily \#include $<$stdbool.\+h$>$}\newline
+{\ttfamily \#include $<$stdint.\+h$>$}\newline
+{\ttfamily \#include \char`\"{}stm32f4xx\+\_\+hal.\+h\char`\"{}}\newline
+\doxysubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \mbox{\hyperlink{_a_d_s1018_8h_a5cb746b84a52daa8f135e423c12c69e0}{ADS\+\_\+\+FULLDATA}}~3U
+\item 
+\#define \mbox{\hyperlink{_a_d_s1018_8h_ad9d78c5bd5a2bb48c82a26f637612343}{ADS\+\_\+\+NODATA}}~0U
+\end{DoxyCompactItemize}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+bool \mbox{\hyperlink{_a_d_s1018_8h_a568d84f20f044710cfb5a82f9b4a513c}{init\+\_\+ads}} (void)
+\begin{DoxyCompactList}\small\item\em Inicializa el ADS1018 de manera abstracta. \end{DoxyCompactList}\item 
+uint8\+\_\+t \mbox{\hyperlink{_a_d_s1018_8h_a0f40d2e48fd47ed45b936fff1bf3d7c6}{read\+\_\+ads}} (uint16\+\_\+t $\ast$data\+Buffer, uint8\+\_\+t buff\+Size)
+\begin{DoxyCompactList}\small\item\em Lee el ADS1018 de manera abstracta. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{_a_d_s1018_8h_a38a074e9bd8eda193cc0b12043d2234c}{init\+\_\+ads\+\_\+spi}} (void)
+\begin{DoxyCompactList}\small\item\em Inicialización del módulo de hardware SPI4, conectado a ADS1018. \end{DoxyCompactList}\item 
+uint16\+\_\+t \mbox{\hyperlink{_a_d_s1018_8h_aa74630614e18c3c845aa309464b539ab}{tx\+\_\+rx\+\_\+spi}} (uint16\+\_\+t config\+Word)
+\begin{DoxyCompactList}\small\item\em Transmisión y recepción de datos con el ADS1018 por SPI4. \end{DoxyCompactList}\item 
+uint8\+\_\+t \mbox{\hyperlink{_a_d_s1018_8h_aa7aad8f6f6cd4186ca5db864f4786a1c}{read\+\_\+ads\+\_\+data}} (uint16\+\_\+t $\ast$read\+Buffer, uint8\+\_\+t buff\+Size)
+\begin{DoxyCompactList}\small\item\em Convierte los canales con manejo de señales de bajo nivel. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Macro Definition Documentation}
+\mbox{\Hypertarget{_a_d_s1018_8h_a5cb746b84a52daa8f135e423c12c69e0}\label{_a_d_s1018_8h_a5cb746b84a52daa8f135e423c12c69e0}} 
+\index{ADS1018.h@{ADS1018.h}!ADS\_FULLDATA@{ADS\_FULLDATA}}
+\index{ADS\_FULLDATA@{ADS\_FULLDATA}!ADS1018.h@{ADS1018.h}}
+\doxysubsubsection{\texorpdfstring{ADS\_FULLDATA}{ADS\_FULLDATA}}
+{\footnotesize\ttfamily \#define ADS\+\_\+\+FULLDATA~3U}
+
+Cantidad de datos a leer\+: por ahora siempre se leen 3 valores \mbox{\Hypertarget{_a_d_s1018_8h_ad9d78c5bd5a2bb48c82a26f637612343}\label{_a_d_s1018_8h_ad9d78c5bd5a2bb48c82a26f637612343}} 
+\index{ADS1018.h@{ADS1018.h}!ADS\_NODATA@{ADS\_NODATA}}
+\index{ADS\_NODATA@{ADS\_NODATA}!ADS1018.h@{ADS1018.h}}
+\doxysubsubsection{\texorpdfstring{ADS\_NODATA}{ADS\_NODATA}}
+{\footnotesize\ttfamily \#define ADS\+\_\+\+NODATA~0U}
+
+Cantidad de datos leídos cuando hubo algún error, ninguno 
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{_a_d_s1018_8h_a568d84f20f044710cfb5a82f9b4a513c}\label{_a_d_s1018_8h_a568d84f20f044710cfb5a82f9b4a513c}} 
+\index{ADS1018.h@{ADS1018.h}!init\_ads@{init\_ads}}
+\index{init\_ads@{init\_ads}!ADS1018.h@{ADS1018.h}}
+\doxysubsubsection{\texorpdfstring{init\_ads()}{init\_ads()}}
+{\footnotesize\ttfamily bool init\+\_\+ads (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+
+
+Inicializa el ADS1018 de manera abstracta. 
+
+\begin{DoxyReturn}{Returns}
+Verdadero o falso, depende del resultado de la inicialización del hardware específico 
+\end{DoxyReturn}
+\mbox{\Hypertarget{_a_d_s1018_8h_a38a074e9bd8eda193cc0b12043d2234c}\label{_a_d_s1018_8h_a38a074e9bd8eda193cc0b12043d2234c}} 
+\index{ADS1018.h@{ADS1018.h}!init\_ads\_spi@{init\_ads\_spi}}
+\index{init\_ads\_spi@{init\_ads\_spi}!ADS1018.h@{ADS1018.h}}
+\doxysubsubsection{\texorpdfstring{init\_ads\_spi()}{init\_ads\_spi()}}
+{\footnotesize\ttfamily bool init\+\_\+ads\+\_\+spi (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+
+
+Inicialización del módulo de hardware SPI4, conectado a ADS1018. 
+
+Según la hoja de datos el ADS1018 trabaja con SPI en Modo 1, con el reloj en bajo cuando está inactivo (CPOL=0), muestrea la señal de entrada en flanco negativo y activa la de salida en el flanco positivo del reloj (CPHA=1).
+
+\begin{DoxyReturn}{Returns}
+Verdadero o falso, depende del resultado de la inicialización del periférico SPI4 
+\end{DoxyReturn}
+\mbox{\Hypertarget{_a_d_s1018_8h_a0f40d2e48fd47ed45b936fff1bf3d7c6}\label{_a_d_s1018_8h_a0f40d2e48fd47ed45b936fff1bf3d7c6}} 
+\index{ADS1018.h@{ADS1018.h}!read\_ads@{read\_ads}}
+\index{read\_ads@{read\_ads}!ADS1018.h@{ADS1018.h}}
+\doxysubsubsection{\texorpdfstring{read\_ads()}{read\_ads()}}
+{\footnotesize\ttfamily uint8\+\_\+t read\+\_\+ads (\begin{DoxyParamCaption}\item[{uint16\+\_\+t $\ast$}]{data\+Buffer,  }\item[{uint8\+\_\+t}]{buff\+Size }\end{DoxyParamCaption})}
+
+
+
+Lee el ADS1018 de manera abstracta. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em data\+Buffer} & Memoria reservada para lectura de datos \\
+\hline
+{\em buff\+Size} & Cantidad de valores a leer \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Verdadero o falso, depende del resultado de la lectura del hardware 
+\end{DoxyReturn}
+\mbox{\Hypertarget{_a_d_s1018_8h_aa7aad8f6f6cd4186ca5db864f4786a1c}\label{_a_d_s1018_8h_aa7aad8f6f6cd4186ca5db864f4786a1c}} 
+\index{ADS1018.h@{ADS1018.h}!read\_ads\_data@{read\_ads\_data}}
+\index{read\_ads\_data@{read\_ads\_data}!ADS1018.h@{ADS1018.h}}
+\doxysubsubsection{\texorpdfstring{read\_ads\_data()}{read\_ads\_data()}}
+{\footnotesize\ttfamily uint8\+\_\+t read\+\_\+ads\+\_\+data (\begin{DoxyParamCaption}\item[{uint16\+\_\+t $\ast$}]{read\+Buffer,  }\item[{uint8\+\_\+t}]{buff\+Size }\end{DoxyParamCaption})}
+
+
+
+Convierte los canales con manejo de señales de bajo nivel. 
+
+Adición ex post\+: Para leer las mediciones del ADS1018 se debe enviar una palabra de configuración que dispara la conversión analógica a digital. Minentras eso sucede, se recibe el valor de la conversión anterior. Por ello en esta configuración de disparo único, se envíean 4 palabras de configuración, se descarta el primer dato, y la cuarta palabra de configuración es un valor bobo solo para leer el resultado de la conversión.
+
+
+\begin{DoxyParams}{Parameters}
+{\em read\+Buffer} & Memoria reservada para lectura de datos \\
+\hline
+{\em buff\+Size} & Cantidad de valores a leer \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+
+\end{DoxyReturn}
+Palabras de configuración para cada lectura del ADS1018 0\+: Adquisición del Canal 2, sin lectura 1\+: Adquisición del Canal 1, lectura del Canal 2 2\+: Adquisición del sensor de temperatura interno, lectura del Canal 1 3\+: Lectura del sensor de temperatura interno
+
+Envía la primera palabra de configuración. Se descarta el dato recibido porque es de la medición anterior
+
+Envía sucesivas palabras de configuración y recupera datos útiles
+
+Espera que indique dato nuevo disponible
+
+El ADS1018 es un ADC de 12 bits y devuelve valores adquiridos en una palabra de 16 bits justificados a la izquierda\+: es necesario corregir esto antes de devolver los datos.
+
+Al finalizar el ciclo de las 4 conversiones se deshabilita el módulo SPI
+
+Devuelve siempre que se leyeron 3 datos\mbox{\Hypertarget{_a_d_s1018_8h_aa74630614e18c3c845aa309464b539ab}\label{_a_d_s1018_8h_aa74630614e18c3c845aa309464b539ab}} 
+\index{ADS1018.h@{ADS1018.h}!tx\_rx\_spi@{tx\_rx\_spi}}
+\index{tx\_rx\_spi@{tx\_rx\_spi}!ADS1018.h@{ADS1018.h}}
+\doxysubsubsection{\texorpdfstring{tx\_rx\_spi()}{tx\_rx\_spi()}}
+{\footnotesize\ttfamily uint16\+\_\+t tx\+\_\+rx\+\_\+spi (\begin{DoxyParamCaption}\item[{uint16\+\_\+t}]{config\+Word }\end{DoxyParamCaption})}
+
+
+
+Transmisión y recepción de datos con el ADS1018 por SPI4. 
+
+IMPORTANTE\+: El ADS1018 opera sobre la línea MISO no solo para transmitir sus lecturas, sino también para indicar que terminó de realizar una conversión. Esto lo hace poniendo en alto la línea MISO cuando empieza a convertir y luego en bajo cuando termina, en ambos casos con ausencia de clock cuando se trata del modo de disparo único. Como se requiere realizar cuatro mediciones consecutivas, se debe generar un ciclo BAJO-\/\+ALTO-\/\+BAJO entre las mediciones de un tiempo suficientement corto como para que no se generen pulsos de clock. Esto se hace con un retardo bloqueante de alrededor de 600ns.
+
+
+\begin{DoxyParams}{Parameters}
+{\em config\+Word} & Palabra de configuración para captura del ADS1018 \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Valor adquirido según anterior palabra de configuración 
+\end{DoxyReturn}
+Hace que el módulo SPI genere un pulso de 600ns sobre la señal de habilitación
