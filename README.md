@@ -15,7 +15,6 @@ Se implementa un sensor de temperatura de bajo consumo de disparo único utiliza
  
 Para el desarrollo del prototipo se dispone de una placa NUCLEO-F429, un circuito impreso con un ADS1018, dos termocuplas, y un analizador lógico de bajo costo. La conexión de las termocuplas sigue el circuito propuesto por el fabricante y las conexiones con la placa nucleo se realizan de la siguiente manera:
 
-<center>
 | **ADS1018**  | **NUCLEO-F429**              |
 |:------------:|:----------------------------:|
 | SCLK         | PIN24 - PE_2 - **SPI4_SCK**  |
@@ -23,7 +22,6 @@ Para el desarrollo del prototipo se dispone de una placa NUCLEO-F429, un circuit
 | DOUT/DRY     | PIN22 - PE_5 - **SPI4_MISO** | 
 | DOUT/DRY     | PIN19 - PE_6 - **SPI4_MISO** |
 | DIN          | PIN21 - PF_8 - **SPI4_MOSI** |
-</center>
 
 ![Conexión de Termocuplas con ADS1018 ©Texas Instruments](01_Thermocouple_Setup_Edit.png)
 
