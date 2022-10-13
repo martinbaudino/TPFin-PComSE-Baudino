@@ -1,9 +1,28 @@
 # TPFin-PComSE-Baudino
 
-## Trabajo Práctico Final de las materia **Protocolos de Comunicación en Sistemas Embebidos**, cursada el cuarto bimestre de 2022
+## Trabajo Práctico Final de la materia **Protocolos de Comunicación en Sistemas Embebidos**, cursada el cuarto bimestre de 2022
 
 Alumno: **BAUDINO, Martín Sebastián**
-Aplicación: **Sensor de temperatura de bajo consumo**
+
+Título del Trabajo Final: **Medición de temperatura por SPI con el ADC de bajo consumo ADS1018**
+
+
+### Descripción General
+
+El Circuito Integrado (IC) ADS1018, fabricado por Texas Instruments, es un Convertidor Analógico Digital (ADC) de 12 bits, con cuatro canales de entrada y la posibilidad de agruparlos de a pares para obtener dos entradas diferenciales. Además, cuenta con un Amplificador de Ganancia Programable (PGA) y un sensor de temperatura interno. Su principal aplicación es como interfaz de sensores de temperatura, especialmente termocuplas. Al mismo tiempo, su bajo consumo de potencia y la posibilidad de realizar un disparo único con auto apagado lo hace ideal para aplicaciones portables y su interfaz de comunicación SPI permite una sencilla conexión con cualquier tipo de microcontrolador.
+
+Se implementa un sensor de temperatura de bajo consumo de disparo único utilizando la placa NUCLEO-F429ZI. Para ello se desarrollaron los drivers correspondientes según los requerimientos y el modelo aprendido durante el cursado de la materia, teniendo también en cuenta el código de referencia en lenguaje C que el fabricante ofrece para la familia de microcontroladores MSP432.
+ 
+Para el desarrollo del prototipo se dispone de un circuito impreso con un ADS1018, dos termocuplas, y un analizador lógico de bajo costo. La conexión de las termocuplas sigue el circuito propuesto por el fabricante:
+
+![Conexión de Termocuplas con ADS1018 ©Texas Instruments](02_Thermocouple_Setup.png)
+
+
+### Driver Desarrollado
+
+
+
+
 
 La aplicación realizará mediciones de temperatura en dos termocuplas, comunicándose por SPI con el ADC de bajo consumo ADS1018 y luego retransmitirá estos valores a través de una interfaz UART. El microcontrolador se mantendrá en modo Sleep y ejecutará el ciclo de adquisición y transmisión de datos cada vez que se presione el pulsador.
 Periféricos (1 ó 2): SPI, UART, GPIO
@@ -18,23 +37,10 @@ Periféricos (1 ó 2): SPI, UART, GPIO
 
 ## Módulos de software implementados para cada periférico
 
+
+
 * **sensorApp**: Aplicación principal que realizará el procesamiento de los datos a través de una Máquina de Estados Finitos. 
 
-```
-// Definiciones de estados válidos
-typedef enum {
-    E0Sleep, 
-    E1ConfigADC, 
-    E2ReadADC,
-    E3SendUart
-} sens_fsm_state;
-
-// Inicializa variable privada del estado en *E0Sleep*
-bool init_sens_fsm(void);
-
-// Corre la MEF actualizando estados cuando corresponde
-void update_sens_fsm(void);
-```
 
 * **ADS1018**: Funciones de la Interfaz de Programación de Aplicación de alto nivel del ADC ADS1018. 
 
