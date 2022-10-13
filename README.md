@@ -15,7 +15,7 @@ Se implementa un sensor de temperatura de bajo consumo de disparo único utiliza
  
 Para el desarrollo del prototipo se dispone de un circuito impreso con un ADS1018, dos termocuplas, y un analizador lógico de bajo costo. La conexión de las termocuplas sigue el circuito propuesto por el fabricante:
 
-![Conexión de Termocuplas con ADS1018 ©Texas Instruments](02_Thermocouple_Setup.png)
+![Conexión de Termocuplas con ADS1018 ©Texas Instruments](01_Thermocouple_Setup_Edit.png)
 
 
 ### Driver Desarrollado
