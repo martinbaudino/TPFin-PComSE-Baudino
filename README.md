@@ -27,47 +27,24 @@ La conexión de las termocuplas sigue el circuito propuesto por el fabricante y 
 | DOUT/DRY     | PIN19 - PE_6 - **SPI4_MISO** |
 | DIN          | PIN21 - PF_8 - **SPI4_MOSI** |
 
-### Organización del Repositorio
-
-Para seguir con los requerimientos del trabajo integrador, se creó la siguiente esturctura de carpetas y archivos:
-
-```
-TPFin-PComSE-Baudino/      // Raiz del repositorio
-|---ADS1018/               // Driver desarrollado
-|   |---src/
-|       |---ADS1018.c
-|       |---port.c
-|   
-|---|---inc/
-|       |---ADS1018.h
-|
-|---base_proj/             // Proyecto de ejemplo que utiliza el driver
-```
-
-
 ### Driver Desarrollado
 
+Para cumplir con los requerimientos del trabajo integrador, se creó la siguiente esturctura de carpetas y archivos:
 
-
-
-
-La aplicación realizará mediciones de temperatura en dos termocuplas, comunicándose por SPI con el ADC de bajo consumo ADS1018 y luego retransmitirá estos valores a través de una interfaz UART. El microcontrolador se mantendrá en modo Sleep y ejecutará el ciclo de adquisición y transmisión de datos cada vez que se presione el pulsador.
-Periféricos (1 ó 2): SPI, UART, GPIO
-
-## Diagrama de estado de MEF con una breve descripción de cada estado
-![Máquina de Estados Finitos de la aplicación propuesta](TP-PdM-PComSE-Baudino.png)
-
-* E0 - Sleep: Tanto el microcontrolador como el ADS1018 se encuentran en modo de bajo consumo, con todas sus salidas apagadas.
-* E1 - ConfigADC:  El microcontrolador envía por SPI los bytes de configuración al ASD1018, esto dispara la conversión analógica a digital en ambos canales.
-* E2 - ReadADC: El microcontrolador espera que se haya terminado la conversión para solicitar los valores adquiridos por SPI al ADS1018. 
-* E3 - SendUART: El microcontrolador envía los datos leídos por UART a la PC.
-
-## Módulos de software implementados para cada periférico
-
-
-
-* **sensorApp**: Aplicación principal que realizará el procesamiento de los datos a través de una Máquina de Estados Finitos. 
-
+```
+TPFin-PComSE-Baudino/    // Raiz del repositorio
+|---ADS1018/             // Driver desarrollado
+|   |---src/
+|   |    |---ADS1018.c    // Funciones de alto nivel
+|   |    |---port.c       // Funciones de acceso al hardware
+|   |
+|   |---inc/
+|   |   |---ADS1018.h    // Interfaz pública del driver
+|   |
+|   |---docs/...         // Documentación del driver generada con Doxygen
+|
+|---base_proj/...        // Proyecto de ejemplo que utiliza el driver
+```
 
 * **ADS1018**: Funciones de la Interfaz de Programación de Aplicación de alto nivel del ADC ADS1018. 
 
@@ -80,7 +57,7 @@ bool init_ads(void);
 uint8_t read_ads(uint16_t *dataBuffer, uint8_t buffSize);
 ```
 
-* **ADS1018_bsp**: Funciones de la Interfaz de bajo nivel utilizadas por la API para comunicarse con el ADS1018 a través de un puerto SPI del STM32F429ZI.
+* **port**: Funciones de la Interfaz de bajo nivel utilizadas por la API para comunicarse con el ADS1018 a través de un puerto SPI del STM32F429ZI.
 ```
 // Inicializa puerto SPI para comunicación con ADS1018
 bool init_ads_spi(void);
@@ -93,30 +70,15 @@ uint8_t read_ads_data(uint16_t *readBuffer, uint8_t buffSize);
 uint16_t tx_rx_spi(uint16_t configWord);
 ```
 
-* **sens_comm**: Funciones de la Interfaz de Programación de Aplicación de alto nivel para la transmisión de datos.
-```
-// Inicializa una interfaz de comunicación de manera 
-// transparente a la aplicación
-bool init_comm(void);
+* **Documentación**: Se utilizó el estilo Javadoc para generar documentación automática con Doxygen a partir de los comentarios de todas las constantes, variables y funciones del proyecto.
 
-// Transmite cadenas de caracteres terminadas en '\0'
-bool tx_data(uint8_t *dataBuffer);
+* **Proyecto de ejemplo**: La aplicación realiza mediciones de temperatura en dos termocuplas y el sensor de temperatura interno del ADS1018, comunicándose por SPI y luego retransmite estos valores a través de una interfaz UART. El microcontrolador se mantiene en modo Sleep y se despierta cada vez que se presiona el pulsador para ejecutar el ciclo de adquisición y transmisión de datos. 
 
-// Recibe cadenas de caracteres de tamaño definido
-bool rx_data(uint8_t *dataBuffer, uint8_t buffSize);
-```
 
-* **comm_bsp**: Funciones de la Interfaz de bajo nivel utilizadas por la API para comunicarse con la PC a través de un puerto UART del STM32F429ZI.
+### Mediciones Realizadas
 
-```
-// Inicializa puerto UART para comunicación con PC
-bool init_uart(void);
 
-// Envía cadenas de caracteres de tamaño específico por UART
-bool tx_uart(uint8_t *dataBuffer, uint8_t buffSize);
+![Captura de medición del sensor interno de temperatura del ADS1018](02_SPI_Read_Edit.png)
 
-// Recibe cadenas de caracteres de tamaño específico por UART
-bool rx_uart(uint8_t *dataBuffer, uint8_t buffSize);
-```
 
 
