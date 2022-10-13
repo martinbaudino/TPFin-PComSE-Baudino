@@ -48,7 +48,9 @@ TPFin-PComSE-Baudino/    // Raíz del repositorio
 |---base_proj/...        // Proyecto de ejemplo que utiliza el driver
 ```
 
-En esta configuración el microcontrolador funciona como Maestro en la conexión SPI en Modo 1, con el reloj en bajo cuando está inactivo (CPOL=0) y muestreo de la señal de entrada en flanco negativo (CPHA=1). Además, el reloj del puerto SPI opera a 164,062 Kbit/s y el control de la señal de habiliación para el esclavo lo hace automáticamente el hardware.
+El microcontrolador funciona como Maestro en la conexión SPI en Modo 1, con el reloj en bajo cuando está inactivo (CPOL=0) y muestreo de la señal de entrada en flanco negativo (CPHA=1). Además, el reloj del puerto SPI opera a 164,062 Kbit/s y el control de la señal de habiliación para el esclavo lo hace automáticamente el hardware. 
+
+El ADS1018 está configurado en modo de disparo único con captura de datos a 3300 muestras por segundo, y se realizan tres disparos consecutivos para leer la termocupla 2, la termocupla 1 y el sensor de temperatura interno, en ese orden. Luego de ello el ADS1018 se pone en modo de bajo consumo.
 
 * **ADS1018**: Funciones de la Interfaz de Programación de Aplicación de alto nivel del ADC ADS1018. 
 
@@ -81,7 +83,7 @@ uint16_t tx_rx_spi(uint16_t configWord);
 
 ### Mediciones Realizadas
 
-En la siguiente figura se puede observar una trama completa la tercer lectura de un ciclo, correspondiente al sensor de temperatura interno, cuyos pasos más relevantes son los siguientes:
+En la siguiente figura se puede observar una trama completa la tercera lectura de un ciclo, correspondiente al sensor de temperatura interno, cuyos pasos más relevantes son los siguientes:
 
 1. Con la señal de habilitación (/CS) en bajo, el ADS1018 pone en bajo la señal MISO cuando termina de realizar una medición. 
 2. El microcontrolador detecta la transición [1] en su pin **PF_8** y habilita la salida de pulsos de reloj para que el ADS1018  le envíe el valor que acaba de adquirir.
