@@ -23,9 +23,9 @@ La conexión de las termocuplas sigue el circuito propuesto por el fabricante y 
 |:------------:|:----------------------------:|
 | SCLK         | PIN24 - PE_2 - **SPI4_SCK**  |
 | /CS          | PIN23 - PE_4 - **SPI4_CS**   |
-| DOUT/DRY     | PIN22 - PE_5 - **SPI4_MISO** | 
-| DOUT/DRY     | PIN19 - PE_6 - **SPI4_MOSI** |
-| DIN          | PIN21 - **PF_8**             |
+| **DOUT**/DRY | PIN22 - PE_5 - **SPI4_MISO** | 
+| DIN          | PIN19 - PE_6 - **SPI4_MOSI** |
+| DOUT/**DRY** | PIN21 - **PF_8**             |
 
 Es importante destacar que el ADS1018 pone la señal **MISO** en bajo cuando termina una conversión, con /CS en bajo y sin señal de reloj, por lo que se utiliza esta señal conectada al pin **PF_8** para que el microcontrolador solicite el dato que se acaba de adquirir.
 
